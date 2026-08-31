@@ -30,6 +30,13 @@ def set_everything(seed=123):
     os.environ['PYTHONHASHSEED'] = str(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+    # 强制所有 CUDA 操作使用确定性算法（scatter/index_add 等）
+    # warn_only=True 避免 PyG 中某些不支持的操作直接报错
+    os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
+    try:
+        torch.use_deterministic_algorithms(True, warn_only=True)
+    except Exception:
+        pass
 
 
 # =============================================================================
