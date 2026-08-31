@@ -1,0 +1,17 @@
+{
+  "dataset": "IMDB_NEW",
+  "source": "datasets/imdb_new",
+  "type": "heterogeneous_edge_perturbation",
+  "edge_noise_ratio": 0.032,
+  "edge_drop_ratio": 0.024,
+  "feature_noise_std": 0.024,
+  "seed": 42,
+  "edge_counts": {
+    "ma.txt": 18148,
+    "md.txt": 4911
+  },
+  "metapath_counts": {
+    "mam.npz": 139960,
+    "mdm.npz": 18690
+  }
+}

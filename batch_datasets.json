@@ -1,0 +1,182 @@
+{
+  "python": "python",
+  "train_script": "train_ig.py",
+  "output_dir": "batch_runs",
+  "env": {
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "PYTHONIOENCODING": "utf-8"
+  },
+  "base_args": {
+    "num_epochs": 200,
+    "intent_source": "dynamic",
+    "num_hidden": 256,
+    "num_proj_hidden": 256,
+    "num_edge_hidden": 32,
+    "adv_lambda": 0,
+    "lambda_intent": 0.1,
+    "encoder": "hii",
+    "num_layers": 2,
+    "hii_heads": 1,
+    "icra_heads": 1,
+    "icra_dim": 64,
+    "sparsify_topk": 10,
+    "disable_candidate_edges": true,
+    "lambda_cand_bce": 0,
+    "lambda_rel_entropy": 0.02,
+    "cs_full_graph": true,
+    "cs_num_queries": 40,
+    "cs_topk": "5,10,20,50,oracle",
+    "cs_w_list": "0.18,0.2,0.22,0.24,0.26",
+    "greedy_patience": 1,
+    "greedy_min_gain_tol": "1e-4",
+    "frontier_batch_size": 2,
+    "greedy_connectivity_boost": 0,
+    "greedy_select_mode": "first_drop",
+    "intent_rerank_alpha": 0,
+    "lambda_ic_spnm": 0,
+    "compute_structure_metrics": true,
+    "ckpt_interval": 10
+  },
+  "profiles": {
+    "ilssc_auto": {
+      "base_args": {
+        "lambda_ilssc": 0.1,
+        "ilssc_seed_size": 8,
+        "ilssc_hard_pool": 2048,
+        "ilssc_neg_mode": "conservative",
+        "ilssc_gate_mode": "prior",
+        "disable_candidate_edges": false,
+        "num_cand_per_node": 4,
+        "cand_sources": "embed,twohop,common,dist,intent",
+        "cand_intent_dist_k": 16,
+        "cand_intent_dist_tau": 0.2,
+        "lambda_cand_bce": 0.02,
+        "cand_label_mode": "soft",
+        "greedy_init_seed_size": 1
+      },
+      "datasets": {
+        "ACM": {
+          "ilssc_warmup_epochs": 30,
+          "ilssc_ramp_epochs": 50
+        },
+        "DBLP": {
+          "ilssc_warmup_epochs": 10,
+          "ilssc_ramp_epochs": 30
+        },
+        "IMDB_NEW": {
+          "ilssc_warmup_epochs": 0,
+          "ilssc_ramp_epochs": 0
+        }
+      }
+    },
+    "scid_ilssc_auto": {
+      "base_args": {
+        "lambda_ilssc": 0.1,
+        "ilssc_seed_size": 8,
+        "ilssc_hard_pool": 2048,
+        "ilssc_neg_mode": "conservative",
+        "ilssc_gate_mode": "prior",
+        "greedy_init_seed_size": 1,
+        "ilssc_use_intent_dist": true,
+        "intent_dist_stable": true,
+        "intent_dist_k": 16,
+        "intent_dist_beta": 0.2,
+        "intent_dist_tau": 0.2,
+        "intent_dist_update_interval": 10,
+        "intent_dist_ema": 0.7,
+        "intent_dist_min_conf": 0.0,
+        "intent_dist_conf_tau": 0.05
+      },
+      "datasets": {
+        "ACM": {
+          "ilssc_warmup_epochs": 30,
+          "ilssc_ramp_epochs": 50
+        },
+        "DBLP": {
+          "ilssc_warmup_epochs": 10,
+          "ilssc_ramp_epochs": 30
+        },
+        "IMDB_NEW": {
+          "ilssc_warmup_epochs": 0,
+          "ilssc_ramp_epochs": 0
+        }
+      }
+    },
+    "hidbr_ilssc_auto": {
+      "base_args": {
+        "lambda_ilssc": 0.1,
+        "ilssc_seed_size": 8,
+        "ilssc_hard_pool": 2048,
+        "ilssc_neg_mode": "conservative",
+        "ilssc_gate_mode": "prior",
+        "greedy_init_seed_size": 1,
+        "ilssc_high_order_beta": 0.2
+      },
+      "datasets": {
+        "ACM": {
+          "ilssc_warmup_epochs": 30,
+          "ilssc_ramp_epochs": 50
+        },
+        "DBLP": {
+          "ilssc_warmup_epochs": 10,
+          "ilssc_ramp_epochs": 30
+        },
+        "IMDB_NEW": {
+          "ilssc_warmup_epochs": 0,
+          "ilssc_ramp_epochs": 0
+        }
+      }
+    },
+    "hse_greedy_auto": {
+      "base_args": {
+        "lambda_ilssc": 0.1,
+        "ilssc_seed_size": 8,
+        "ilssc_hard_pool": 2048,
+        "ilssc_neg_mode": "conservative",
+        "ilssc_gate_mode": "prior",
+        "greedy_init_seed_size": 1,
+        "ilssc_high_order_beta": 0.2,
+        "greedy_high_order_beta": 0.2,
+        "greedy_comm_direct_beta": 0.1,
+        "greedy_comm_cohesion_beta": 0.05,
+        "greedy_boundary_gamma": 0.03,
+        "greedy_hse_pool_size": 512
+      },
+      "datasets": {
+        "ACM": {
+          "ilssc_warmup_epochs": 30,
+          "ilssc_ramp_epochs": 50
+        },
+        "DBLP": {
+          "ilssc_warmup_epochs": 10,
+          "ilssc_ramp_epochs": 30
+        },
+        "IMDB_NEW": {
+          "ilssc_warmup_epochs": 0,
+          "ilssc_ramp_epochs": 0
+        }
+      }
+    }
+  },
+  "datasets": [
+    {
+      "name": "ACM",
+      "args": {
+        "cs_relations": "pap,psp",
+        "query_file": "log/queries_ACM_40_seed0_new.txt"
+      }
+    },
+    {
+      "name": "DBLP",
+      "args": {
+        "cs_relations": "apa,apcpa,aptpa"
+      }
+    },
+    {
+      "name": "IMDB_NEW",
+      "args": {
+        "cs_relations": "mam,mdm"
+      }
+    }
+  ]
+}

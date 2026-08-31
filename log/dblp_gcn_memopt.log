@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\论文code\Edge Self-Adversarial Augmentation Enhances Graph Contrastive Learning\EDA-GCL-main\train_ig.py", line 29, in <module>
+    from utils import set_everything, get_dataset, get_cs_dataset, CS_DATASETS
+  File "D:\论文code\Edge Self-Adversarial Augmentation Enhances Graph Contrastive Learning\EDA-GCL-main\utils.py", line 10, in <module>
+    from torch_geometric.datasets import (
+    ...<2 lines>...
+    )
+ModuleNotFoundError: No module named 'torch_geometric'

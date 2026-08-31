@@ -1,0 +1,17 @@
+{
+  "dataset": "ACM",
+  "source": "datasets/acm",
+  "type": "heterogeneous_edge_perturbation",
+  "edge_noise_ratio": 0.032,
+  "edge_drop_ratio": 0.024,
+  "feature_noise_std": 0.024,
+  "seed": 42,
+  "edge_counts": {
+    "pa.txt": 13515,
+    "ps.txt": 4051
+  },
+  "metapath_counts": {
+    "pap.npz": 53018,
+    "psp.npz": 4138958
+  }
+}
