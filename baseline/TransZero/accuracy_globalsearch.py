@@ -101,12 +101,9 @@ if __name__ == "__main__":
     end = time.time()
     print("The global search using time: {:.4f}".format(end-start)) 
     print("The global search using time (one query): {:.4f}".format((end-start)/query_feature.shape[0])) 
-    f1_score = f1_score_calculation(y_pred.int(), labels.int())
+    precision, recall, f1_score, jaccard = f1_score_calculation(y_pred.int(), labels.int())
 
-    print("F1 score by maximum weight gain: {:.4f}".format(f1_score))
-
-    nmi, ari, jac = evaluation(y_pred.int(), labels.int())
-    
-    print("NMI score by maximum weight gain: {:.4f}".format(nmi))
-    print("ARI score by maximum weight gain: {:.4f}".format(ari))
-    print("JAC score by maximum weight gain: {:.4f}".format(jac))
+    print("Precision: {:.4f}".format(precision))
+    print("Recall: {:.4f}".format(recall))
+    print("F1 score: {:.4f}".format(f1_score))
+    print("Jaccard: {:.4f}".format(jaccard))
