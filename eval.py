@@ -238,19 +238,34 @@ def print_statistics(statistics, function_name):
             
 def label_classification(embeddings, data, dataset_name, ratio = 0.1, test_repeat = 10):
     y = data.y
+
+    # 过滤掉标签为 -1 的节点（不属于任何社区）
+    valid_mask = y >= 0
+    valid_indices = torch.where(valid_mask)[0]
+    num_valid = valid_indices.size(0)
+
+    if num_valid == 0:
+        print("Warning: No valid labels found, skipping node classification")
+        return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+
+    # 只使用有效标签的节点
+    y_valid = y[valid_indices]
+    embeddings_valid = embeddings[valid_indices]
+
     micro_f1 = torch.zeros(test_repeat)
     macro_f1 = torch.zeros(test_repeat)
     acc= torch.zeros(test_repeat)
-    for num in range(test_repeat):  
-        split = get_split(embeddings.shape[0], train_ratio = 0.1, test_ratio = 0.8)
+    for num in range(test_repeat):
+        split = get_split(num_valid, train_ratio = 0.1, test_ratio = 0.8)
         logreg = LREvaluator(num_epochs=20000)
-        result = logreg.evaluate(embeddings, y, split)
+        result = logreg.evaluate(embeddings_valid, y_valid, split)
         micro_f1[num]= result['micro_f1']
         macro_f1[num]= result['macro_f1']
         acc[num]= result['acc']
     print('micro_f1:', micro_f1.mean().item(),'std:', micro_f1.std().item())
     print('macro_f1:', macro_f1.mean().item(),'std:', macro_f1.std().item())
     print('accuracy:', acc.mean().item(),'std:', acc.std().item())
+    print(f'(Used {num_valid} valid nodes out of {y.size(0)} total)')
     return micro_f1.mean().item()*100, micro_f1.std().item()*100, macro_f1.mean().item()*100, macro_f1.std().item()*100, acc.mean().item()*100, acc.std().item()*100
 
 
