@@ -23,7 +23,17 @@ def load_hete_dataset(dataset_name, data_root='../../datasets'):
     print(f"加载 {dataset_name} 数据集")
     print(f"{'='*60}\n")
 
+    # 数据集名称映射（支持别名）
+    name_map = {
+        'IMDB_NEW': 'IMDB',
+        'IMDB': 'IMDB',
+        'ACM': 'ACM',
+        'DBLP': 'DBLP'
+    }
+
     dataset_name_upper = dataset_name.upper()
+    if dataset_name_upper in name_map:
+        dataset_name_upper = name_map[dataset_name_upper]
 
     if dataset_name_upper not in HETE_DATASETS:
         raise ValueError(f"Unknown dataset: {dataset_name}. Available: {list(HETE_DATASETS.keys())}")
