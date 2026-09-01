@@ -102,20 +102,73 @@ def _load_snap_community_dataset(root_path, data_dir, edge_filename, cmty_filena
     # ===== Step 2: 构建图结构特征 =====
     print(f"[{label}] Computing structural features...")
 
+    # 使用 networkx 计算丰富的结构特征
+    import networkx as nx
+    G = nx.Graph()
+    G.add_nodes_from(range(num_nodes))
+    G.add_edges_from(raw_edges)
+
+    # 1. 度特征
     degree = torch.zeros(num_nodes, dtype=torch.float32)
     for e in raw_edges:
         degree[e[0]] += 1
         degree[e[1]] += 1
-
     degree_norm = degree / (degree.max() + 1e-8)
     log_degree = torch.log1p(degree)
     log_degree = log_degree / (log_degree.max() + 1e-8)
 
-    # 特征: [归一化度, 对数度, 常数1]
-    x = torch.stack([degree_norm, log_degree, torch.ones(num_nodes)], dim=1)
+    # 2. PageRank 分数
+    print(f"[{label}] Computing PageRank...")
+    pagerank = nx.pagerank(G, alpha=0.85)
+    pr_values = [pagerank.get(i, 0.0) for i in range(num_nodes)]
+    pr_tensor = torch.tensor(pr_values, dtype=torch.float32)
+    pr_norm = pr_tensor / (pr_tensor.max() + 1e-8)
+
+    # 3. 聚类系数
+    print(f"[{label}] Computing clustering coefficient...")
+    clustering = nx.clustering(G)
+    cl_values = [clustering.get(i, 0.0) for i in range(num_nodes)]
+    cl_tensor = torch.tensor(cl_values, dtype=torch.float32)
+
+    # 4. K-core 核心数
+    print(f"[{label}] Computing k-core decomposition...")
+    try:
+        core_number = nx.core_number(G)
+        core_values = [core_number.get(i, 0) for i in range(num_nodes)]
+        core_tensor = torch.tensor(core_values, dtype=torch.float32)
+        core_norm = core_tensor / (core_tensor.max() + 1e-8)
+    except Exception as e:
+        print(f"[{label}] Warning: k-core decomposition failed: {e}")
+        core_norm = torch.zeros(num_nodes, dtype=torch.float32)
+
+    # 5. 邻居度统计
+    print(f"[{label}] Computing neighbor degree statistics...")
+    neighbor_deg_avg = torch.zeros(num_nodes, dtype=torch.float32)
+    neighbor_deg_max = torch.zeros(num_nodes, dtype=torch.float32)
+    for i in range(num_nodes):
+        neighbors = list(G.neighbors(i))
+        if neighbors:
+            neighbor_degrees = [degree[n] for n in neighbors]
+            neighbor_deg_avg[i] = sum(neighbor_degrees) / len(neighbor_degrees)
+            neighbor_deg_max[i] = max(neighbor_degrees)
+    neighbor_deg_avg_norm = neighbor_deg_avg / (neighbor_deg_avg.max() + 1e-8)
+    neighbor_deg_max_norm = neighbor_deg_max / (neighbor_deg_max.max() + 1e-8)
+
+    # 组合所有特征
+    # 特征: [归一化度, 对数度, PageRank, 聚类系数, 核心数, 邻居平均度, 邻居最大度, 常数1]
+    x = torch.stack([
+        degree_norm,
+        log_degree,
+        pr_norm,
+        cl_tensor,
+        core_norm,
+        neighbor_deg_avg_norm,
+        neighbor_deg_max_norm,
+        torch.ones(num_nodes)
+    ], dim=1)
     feat_dim = x.size(1)
 
-    print(f"[{label}] Feature dimension: {feat_dim} (structural)")
+    print(f"[{label}] Feature dimension: {feat_dim} (enhanced structural)")
 
     # ===== Step 3: 读取社区标签 =====
     cmty_file = osp.join(data_path, cmty_filename, cmty_filename)

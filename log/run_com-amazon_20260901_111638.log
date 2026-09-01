@@ -1,0 +1,37 @@
+[log] 运行日志写入: log\run_com-amazon_20260901_111638.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using CPU
+[com-amazon] Loading edges from: ./datasets/com-Amazon\com-amazon.ungraph.txt
+[com-amazon] Raw edges: 33767, nodes: 13178
+[com-amazon] After symmetrize: 67534 edges
+[com-amazon] Computing structural features...
+[com-amazon] Computing PageRank...
+[com-amazon] Computing clustering coefficient...
+[com-amazon] Computing k-core decomposition...
+[com-amazon] Computing neighbor degree statistics...
+[com-amazon] Feature dimension: 8 (enhanced structural)
+[com-amazon] Loading communities from: ./datasets/com-Amazon\com-amazon.top5000.cmty.txt
+[com-amazon] Total communities: 4517
+[com-amazon] Nodes with community labels: 10703 / 13178
+[com-amazon] Dataset summary:
+  Nodes: 13178
+  Edges: 67534
+  Features: 8 (structural)
+  Communities: 4517
+  Labeled nodes: 10703
+  Train/Val/Test: 6421/2140/2142
+[data] Graph size: 13178 nodes, 67534 edges
+[data] Using standard-memory thresholds (50K nodes, 300K edges)
+[intent] source=random, dim=256
+[encoder] vanilla GCNConv
+D:\论文code\zhengshi\IG-ACS\edge_importance.py:116: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at C:\cb\pytorch_1000000000000\work\aten\src\ATen\SparseCsrTensorImpl.cpp:55.)
+  A2 = torch.sparse.mm(A, A).coalesce()
+(T) | Epoch=001, loss=11.3679, con=10.1378, intent=4.9667, rec=0.0027, this epoch 95.5249, total 95.5249
+(T) | Epoch=002, loss=10.8143, con=9.7952, intent=4.1056, rec=0.0025, this epoch 72.3904, total 167.9153
+(T) | Epoch=003, loss=10.8195, con=9.8963, intent=3.5755, rec=0.0019, this epoch 87.1135, total 255.0288
+(T) | Epoch=004, loss=10.5464, con=9.7463, intent=3.1981, rec=0.0016, this epoch 71.0511, total 326.0798
+(T) | Epoch=005, loss=10.3157, con=9.6080, intent=2.9342, rec=0.0014, this epoch 72.7724, total 398.8523
+(T) | Epoch=006, loss=10.0265, con=9.3591, intent=2.7677, rec=0.0015, this epoch 69.4975, total 468.3498
+(T) | Epoch=007, loss=10.1920, con=9.5392, intent=2.6668, rec=0.0012, this epoch 63.3421, total 531.6918
+(T) | Epoch=008, loss=10.0426, con=9.4024, intent=2.6003, rec=0.0010, this epoch 62.7136, total 594.4054
