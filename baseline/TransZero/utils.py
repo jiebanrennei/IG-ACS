@@ -111,7 +111,7 @@ def laplacian_positional_encoding(g, pos_enc_dim):
 
     # 获取图的邻接矩阵（采用稀疏矩阵格式 CSR）
     # A 是图的邻接矩阵，形状为 [num_nodes, num_nodes]
-    A = g.adj_external(scipy_fmt='csr')
+    A = g.adjacency_matrix(scipy_fmt='csr')
 
     # 获取节点的度，并计算归一化矩阵 N，N 是一个对角矩阵，形状为 [num_nodes, num_nodes]
     N = sp.diags(dgl.backend.asnumpy(g.in_degrees()).clip(1) ** -0.5, dtype=float)
