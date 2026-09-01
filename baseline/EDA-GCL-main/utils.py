@@ -48,7 +48,7 @@ def get_dataset(path, name):
     # -------------------------------------------------------------------------
     if name in ['ACM', 'DBLP', 'IMDB']:
         # 加载转换后的 PyG 数据
-        data_path = f'{path}/{name.lower()}/{name.lower()}_pyg.pt'
+        data_path = f'{path}/../dataset/{name.lower()}/{name.lower()}_pyg.pt'
         data = torch.load(data_path)
         print(f"Loaded {name} dataset: {data.num_nodes} nodes, {data.num_edges} edges")
         return [data]
