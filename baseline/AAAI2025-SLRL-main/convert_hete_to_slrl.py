@@ -82,11 +82,26 @@ def load_hete_dataset(dataset_name, data_root='../../datasets'):
     all_edges = np.unique(all_edges, axis=0)
     print(f"\n总边数（去重后）: {len(all_edges)}")
 
-    # 3. 获取总节点数
-    num_nodes = max(all_edges.max() + 1, len(labels))
-    print(f"总节点数: {num_nodes}")
+    # 3. 获取总节点数并重新标记节点（确保连续）
+    unique_nodes = np.unique(all_edges.flatten())
+    num_nodes = len(unique_nodes)
 
-    return all_edges, labels, num_nodes
+    # 创建节点映射（旧ID -> 新ID）
+    node_mapping = {old_id: new_id for new_id, old_id in enumerate(unique_nodes)}
+
+    # 重新映射边
+    all_edges_remapped = np.array([[node_mapping[u], node_mapping[v]] for u, v in all_edges])
+
+    # 重新映射标签
+    labels_remapped = np.full(num_nodes, -1, dtype=np.int64)
+    for old_id, label in enumerate(labels):
+        if old_id in node_mapping:
+            labels_remapped[node_mapping[old_id]] = label
+
+    print(f"总节点数: {num_nodes}")
+    print(f"有标签的节点数: {np.sum(labels_remapped >= 0)}")
+
+    return all_edges_remapped, labels_remapped, num_nodes
 
 
 def convert_to_slrl_format(dataset_name, output_dir, data_root='../../datasets'):
