@@ -1,0 +1,37 @@
+[log] 运行日志写入: log/run_ACM_20260901_161151.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using GPU: NVIDIA GeForce RTX 3090
+  [cs_full_graph] ACM: merged ['pap.npz', 'psp.npz'] -> 4359766 directed edges (no sparsify)
+/root/miniconda3/lib/python3.8/site-packages/scipy/sparse/_index.py:146: SparseEfficiencyWarning: Changing the sparsity structure of a csr_matrix is expensive. lil_matrix is more efficient.
+  self._set_arrayXarray(i, j, x)
+  [sparsify] psp.npz: 4338213 -> 344296 edges (avg_deg 1079 -> 86, top-k=50)
+[data] 多关系 R=2: pap(53834 edges), psp(344296 edges)
+[data] Graph size: 4019 nodes, 53834 edges
+[data] GPU memory: 25.3 GB
+[data] Using high-memory thresholds (80K nodes, 500K edges)
+[intent] source=random, dim=256
+[encoder] MultiRelation+ICRA  R=2 hii_heads=4 icra_heads=4 icra_dim=128
+(T) | Epoch=001, loss=10.3013, con=8.9049, intent=4.9206, rec=0.0201, this epoch 1.6833, total 1.6833  alpha=[pap:0.491, psp:0.509]
+(T) | Epoch=002, loss=9.9549, con=8.9377, intent=3.9175, rec=0.0118, this epoch 1.3114, total 2.9947
+(T) | Epoch=003, loss=9.8034, con=8.9326, intent=3.4621, rec=0.0050, this epoch 1.2903, total 4.2851
+(T) | Epoch=004, loss=9.6809, con=8.9122, intent=3.1407, rec=0.0049, this epoch 1.2889, total 5.5739
+(T) | Epoch=005, loss=9.5727, con=8.8747, intent=2.9169, rec=0.0041, this epoch 1.2863, total 6.8602
+(T) | Epoch=006, loss=9.4865, con=8.8281, intent=2.7754, rec=0.0043, this epoch 1.2621, total 8.1223
+(T) | Epoch=007, loss=9.4141, con=8.7807, intent=2.6828, rec=0.0071, this epoch 1.2863, total 9.4086
+(T) | Epoch=008, loss=9.3221, con=8.7046, intent=2.6225, rec=0.0078, this epoch 1.2753, total 10.6839
+(T) | Epoch=009, loss=9.2055, con=8.5994, intent=2.5741, rec=0.0081, this epoch 1.2735, total 11.9574
+(T) | Epoch=010, loss=9.1975, con=8.5982, intent=2.5438, rec=0.0085, this epoch 1.2628, total 13.2203  alpha=[pap:0.592, psp:0.408]
+(T) | Epoch=011, loss=9.1375, con=8.5469, intent=2.5287, rec=0.0038, this epoch 1.2749, total 14.4952
+(T) | Epoch=012, loss=9.2689, con=8.6894, intent=2.5237, rec=0.0032, this epoch 1.2874, total 15.7826
+(T) | Epoch=013, loss=9.2555, con=8.6791, intent=2.5180, rec=0.0047, this epoch 1.3038, total 17.0864
+Traceback (most recent call last):
+  File "train_ig.py", line 2061, in <module>
+    model_loss.backward()
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/_tensor.py", line 521, in backward
+    torch.autograd.backward(
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/autograd/__init__.py", line 289, in backward
+    _engine_run_backward(
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/autograd/graph.py", line 769, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

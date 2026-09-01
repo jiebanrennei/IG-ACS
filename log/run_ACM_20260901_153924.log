@@ -1,0 +1,21 @@
+[log] 运行日志写入: log/run_ACM_20260901_153924.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using GPU: NVIDIA GeForce RTX 3090
+  [cs_full_graph] ACM: merged ['pap.npz', 'psp.npz'] -> 4359766 directed edges (no sparsify)
+[data] Graph size: 4019 nodes, 53834 edges
+[data] GPU memory: 25.3 GB
+[data] Using high-memory thresholds (80K nodes, 500K edges)
+[intent] source=random, dim=256
+[encoder] vanilla GCNConv
+(T) | Epoch=001, loss=10.3814, con=8.9916, intent=4.8414, rec=0.0063, this epoch 1.3367, total 1.3367
+Traceback (most recent call last):
+  File "train_ig.py", line 2133, in <module>
+    _save_ckpt(ckpt_path, epoch, now - start)
+  File "train_ig.py", line 1701, in _save_ckpt
+    torch.save(ckpt, tmp)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/serialization.py", line 652, in save
+    _save(obj, opened_zipfile, pickle_module, pickle_protocol, _disable_byteorder_record)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/serialization.py", line 886, in _save
+    zip_file.write_record(name, storage, num_bytes)
+KeyboardInterrupt

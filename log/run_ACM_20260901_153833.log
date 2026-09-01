@@ -1,0 +1,66 @@
+[log] 运行日志写入: log/run_ACM_20260901_153833.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using GPU: NVIDIA GeForce RTX 3090
+  [cs_full_graph] ACM: merged ['pap.npz', 'psp.npz'] -> 4359766 directed edges (no sparsify)
+[data] Graph size: 4019 nodes, 53834 edges
+[data] GPU memory: 25.3 GB
+[data] Using high-memory thresholds (80K nodes, 500K edges)
+[intent] source=random, dim=256
+[encoder] vanilla GCNConv
+(T) | Epoch=001, loss=10.3814, con=8.9916, intent=4.8414, rec=0.0063, this epoch 1.3064, total 1.3064
+(T) | Epoch=002, loss=10.2350, con=8.9905, intent=4.1931, rec=0.0120, this epoch 0.8947, total 2.2012
+(T) | Epoch=003, loss=10.0994, con=8.9889, intent=3.6800, rec=0.0031, this epoch 0.8865, total 3.0876
+(T) | Epoch=004, loss=9.9832, con=8.9802, intent=3.2930, rec=0.0010, this epoch 0.8861, total 3.9737
+(T) | Epoch=005, loss=9.9091, con=8.9856, intent=3.0164, rec=0.0004, this epoch 0.8968, total 4.8705
+(T) | Epoch=006, loss=9.8551, con=8.9871, intent=2.8289, rec=0.0000, this epoch 0.8875, total 5.7580
+(T) | Epoch=007, loss=9.8192, con=8.9874, intent=2.7082, rec=0.0000, this epoch 0.8948, total 6.6527
+(T) | Epoch=008, loss=9.7964, con=8.9871, intent=2.6343, rec=0.0000, this epoch 0.8881, total 7.5408
+(T) | Epoch=009, loss=9.7812, con=8.9859, intent=2.5897, rec=0.0000, this epoch 0.8818, total 8.4226
+(T) | Epoch=010, loss=9.7687, con=8.9827, intent=2.5608, rec=0.0000, this epoch 0.9046, total 9.3272
+(T) | Epoch=011, loss=9.7512, con=8.9723, intent=2.5390, rec=0.0000, this epoch 0.8933, total 10.2205
+(T) | Epoch=012, loss=9.6892, con=8.9163, intent=2.5211, rec=0.0000, this epoch 0.9277, total 11.1482
+(T) | Epoch=013, loss=9.7025, con=8.9351, intent=2.5048, rec=0.0000, this epoch 0.8802, total 12.0283
+(T) | Epoch=014, loss=9.6908, con=8.9272, intent=2.4948, rec=0.0000, this epoch 0.8835, total 12.9118
+(T) | Epoch=015, loss=9.6530, con=8.8926, intent=2.4864, rec=0.0000, this epoch 0.8737, total 13.7854
+(T) | Epoch=016, loss=9.6430, con=8.8852, intent=2.4792, rec=0.0000, this epoch 0.9015, total 14.6870
+(T) | Epoch=017, loss=9.5228, con=8.7670, intent=2.4748, rec=-0.0000, this epoch 0.8794, total 15.5664
+(T) | Epoch=018, loss=9.4791, con=8.7253, intent=2.4705, rec=0.0000, this epoch 0.9237, total 16.4901
+(T) | Epoch=019, loss=9.5947, con=8.8423, intent=2.4670, rec=0.0000, this epoch 0.9024, total 17.3925
+(T) | Epoch=020, loss=9.6718, con=8.9209, intent=2.4640, rec=-0.0000, this epoch 0.8845, total 18.2770
+(T) | Epoch=021, loss=9.6806, con=8.9309, intent=2.4613, rec=0.0000, this epoch 0.9938, total 19.2708
+(T) | Epoch=022, loss=9.6736, con=8.9252, intent=2.4588, rec=0.0000, this epoch 0.8862, total 20.1569
+(T) | Epoch=023, loss=9.6562, con=8.9088, intent=2.4566, rec=0.0000, this epoch 0.9370, total 21.0939
+(T) | Epoch=024, loss=9.6258, con=8.8794, intent=2.4549, rec=0.0000, this epoch 0.8805, total 21.9744
+(T) | Epoch=025, loss=9.5767, con=8.8311, intent=2.4535, rec=0.0000, this epoch 0.8775, total 22.8519
+(T) | Epoch=026, loss=9.5057, con=8.7610, intent=2.4525, rec=0.0000, this epoch 0.8829, total 23.7347
+(T) | Epoch=027, loss=9.4295, con=8.6854, intent=2.4520, rec=0.0000, this epoch 0.8883, total 24.6230
+(T) | Epoch=028, loss=9.3055, con=8.5620, intent=2.4515, rec=-0.0000, this epoch 0.8775, total 25.5005
+(T) | Epoch=029, loss=8.9692, con=8.2262, intent=2.4506, rec=0.0000, this epoch 0.8953, total 26.3957
+(T) | Epoch=030, loss=9.0847, con=8.3423, intent=2.4494, rec=0.0000, this epoch 0.8757, total 27.2715
+(T) | Epoch=031, loss=8.9665, con=8.2247, intent=2.4486, rec=0.0000, this epoch 0.8727, total 28.1441
+(T) | Epoch=032, loss=8.7890, con=8.0477, intent=2.4481, rec=0.0000, this epoch 0.8738, total 29.0179
+(T) | Epoch=033, loss=9.1996, con=8.4588, intent=2.4480, rec=0.0000, this epoch 0.8867, total 29.9046
+(T) | Epoch=034, loss=9.2251, con=8.4849, intent=2.4475, rec=0.0000, this epoch 0.9080, total 30.8126
+(T) | Epoch=035, loss=8.8115, con=8.0717, intent=2.4468, rec=0.0000, this epoch 0.8785, total 31.6911
+(T) | Epoch=036, loss=8.7145, con=7.9748, intent=2.4466, rec=0.0000, this epoch 0.8732, total 32.5642
+(T) | Epoch=037, loss=8.9935, con=8.2539, intent=2.4467, rec=0.0000, this epoch 0.8819, total 33.4462
+(T) | Epoch=038, loss=9.1689, con=8.4294, intent=2.4468, rec=0.0000, this epoch 0.8801, total 34.3263
+(T) | Epoch=039, loss=9.2050, con=8.4658, intent=2.4467, rec=0.0000, this epoch 0.9151, total 35.2414
+(T) | Epoch=040, loss=9.1460, con=8.4074, intent=2.4465, rec=0.0000, this epoch 0.9395, total 36.1810
+(T) | Epoch=041, loss=9.0046, con=8.2671, intent=2.4461, rec=0.0001, this epoch 0.9841, total 37.1650
+(T) | Epoch=042, loss=8.8449, con=8.1144, intent=2.4458, rec=0.0006, this epoch 0.8792, total 38.0442
+(T) | Epoch=043, loss=8.8709, con=8.1865, intent=2.4456, rec=0.0013, this epoch 0.8763, total 38.9205
+(T) | Epoch=044, loss=8.9680, con=8.4315, intent=2.4457, rec=0.0024, this epoch 0.8870, total 39.8075
+(T) | Epoch=045, loss=9.0771, con=8.5971, intent=2.4459, rec=0.0027, this epoch 0.8741, total 40.6816
+(T) | Epoch=046, loss=9.2033, con=8.7092, intent=2.4460, rec=0.0023, this epoch 0.8922, total 41.5738
+Traceback (most recent call last):
+  File "train_ig.py", line 2133, in <module>
+    _save_ckpt(ckpt_path, epoch, now - start)
+  File "train_ig.py", line 1701, in _save_ckpt
+    torch.save(ckpt, tmp)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/serialization.py", line 652, in save
+    _save(obj, opened_zipfile, pickle_module, pickle_protocol, _disable_byteorder_record)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/serialization.py", line 886, in _save
+    zip_file.write_record(name, storage, num_bytes)
+KeyboardInterrupt

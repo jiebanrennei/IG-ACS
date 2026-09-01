@@ -1,0 +1,282 @@
+[log] 运行日志写入: log/run_ACM_20260901_152223.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using GPU: NVIDIA GeForce RTX 3090
+  [cs_full_graph] ACM: merged ['pap.npz', 'psp.npz'] -> 4359766 directed edges (no sparsify)
+[data] Graph size: 4019 nodes, 53834 edges
+[data] GPU memory: 25.3 GB
+[data] Using high-memory thresholds (80K nodes, 500K edges)
+[intent] source=random, dim=256
+[encoder] vanilla GCNConv
+(T) | Epoch=001, loss=10.3814, con=8.9916, intent=4.8414, rec=0.0063, this epoch 1.3188, total 1.3188
+(T) | Epoch=002, loss=10.2350, con=8.9905, intent=4.1931, rec=0.0120, this epoch 0.8745, total 2.1933
+(T) | Epoch=003, loss=10.0994, con=8.9889, intent=3.6800, rec=0.0031, this epoch 0.8731, total 3.0663
+(T) | Epoch=004, loss=9.9832, con=8.9802, intent=3.2930, rec=0.0010, this epoch 0.8724, total 3.9387
+(T) | Epoch=005, loss=9.9091, con=8.9856, intent=3.0164, rec=0.0004, this epoch 0.8674, total 4.8061
+(T) | Epoch=006, loss=9.8551, con=8.9871, intent=2.8289, rec=0.0000, this epoch 0.8758, total 5.6819
+(T) | Epoch=007, loss=9.8192, con=8.9874, intent=2.7082, rec=0.0000, this epoch 0.8749, total 6.5567
+(T) | Epoch=008, loss=9.7964, con=8.9871, intent=2.6343, rec=0.0000, this epoch 0.8811, total 7.4379
+(T) | Epoch=009, loss=9.7812, con=8.9859, intent=2.5897, rec=0.0000, this epoch 0.8685, total 8.3064
+(T) | Epoch=010, loss=9.7687, con=8.9827, intent=2.5608, rec=0.0000, this epoch 0.8878, total 9.1941
+(T) | Epoch=011, loss=9.7512, con=8.9723, intent=2.5390, rec=0.0000, this epoch 0.8728, total 10.0669
+(T) | Epoch=012, loss=9.6892, con=8.9163, intent=2.5211, rec=0.0000, this epoch 0.8651, total 10.9321
+(T) | Epoch=013, loss=9.7025, con=8.9351, intent=2.5048, rec=0.0000, this epoch 0.8721, total 11.8041
+(T) | Epoch=014, loss=9.6908, con=8.9272, intent=2.4948, rec=0.0000, this epoch 0.8642, total 12.6683
+(T) | Epoch=015, loss=9.6530, con=8.8926, intent=2.4864, rec=0.0000, this epoch 0.8696, total 13.5379
+(T) | Epoch=016, loss=9.6430, con=8.8852, intent=2.4792, rec=0.0000, this epoch 0.8710, total 14.4089
+(T) | Epoch=017, loss=9.5228, con=8.7670, intent=2.4748, rec=-0.0000, this epoch 0.9035, total 15.3123
+(T) | Epoch=018, loss=9.4791, con=8.7253, intent=2.4705, rec=0.0000, this epoch 0.8792, total 16.1916
+(T) | Epoch=019, loss=9.5947, con=8.8423, intent=2.4670, rec=0.0000, this epoch 0.8711, total 17.0626
+(T) | Epoch=020, loss=9.6718, con=8.9209, intent=2.4640, rec=-0.0000, this epoch 0.8740, total 17.9366
+(T) | Epoch=021, loss=9.6806, con=8.9309, intent=2.4613, rec=0.0000, this epoch 0.9753, total 18.9119
+(T) | Epoch=022, loss=9.6736, con=8.9252, intent=2.4588, rec=0.0000, this epoch 0.8736, total 19.7856
+(T) | Epoch=023, loss=9.6562, con=8.9088, intent=2.4566, rec=0.0000, this epoch 0.8969, total 20.6825
+(T) | Epoch=024, loss=9.6258, con=8.8794, intent=2.4549, rec=0.0000, this epoch 0.8815, total 21.5640
+(T) | Epoch=025, loss=9.5767, con=8.8311, intent=2.4535, rec=0.0000, this epoch 0.8736, total 22.4377
+(T) | Epoch=026, loss=9.5057, con=8.7610, intent=2.4525, rec=0.0000, this epoch 0.8766, total 23.3143
+(T) | Epoch=027, loss=9.4295, con=8.6854, intent=2.4520, rec=0.0000, this epoch 0.8840, total 24.1983
+(T) | Epoch=028, loss=9.3055, con=8.5620, intent=2.4515, rec=-0.0000, this epoch 0.8793, total 25.0777
+(T) | Epoch=029, loss=8.9692, con=8.2262, intent=2.4506, rec=0.0000, this epoch 0.8892, total 25.9669
+(T) | Epoch=030, loss=9.0847, con=8.3423, intent=2.4494, rec=0.0000, this epoch 0.8761, total 26.8430
+(T) | Epoch=031, loss=8.9665, con=8.2247, intent=2.4486, rec=0.0000, this epoch 0.8684, total 27.7114
+(T) | Epoch=032, loss=8.7890, con=8.0477, intent=2.4481, rec=0.0000, this epoch 0.8796, total 28.5910
+(T) | Epoch=033, loss=9.1996, con=8.4588, intent=2.4480, rec=0.0000, this epoch 0.8808, total 29.4717
+(T) | Epoch=034, loss=9.2251, con=8.4849, intent=2.4475, rec=0.0000, this epoch 0.8833, total 30.3550
+(T) | Epoch=035, loss=8.8115, con=8.0717, intent=2.4468, rec=0.0000, this epoch 0.8761, total 31.2311
+(T) | Epoch=036, loss=8.7145, con=7.9748, intent=2.4466, rec=0.0000, this epoch 0.8760, total 32.1071
+(T) | Epoch=037, loss=8.9935, con=8.2539, intent=2.4467, rec=0.0000, this epoch 0.8815, total 32.9886
+(T) | Epoch=038, loss=9.1689, con=8.4294, intent=2.4468, rec=0.0000, this epoch 0.8764, total 33.8651
+(T) | Epoch=039, loss=9.2050, con=8.4658, intent=2.4467, rec=0.0000, this epoch 0.8802, total 34.7452
+(T) | Epoch=040, loss=9.1460, con=8.4074, intent=2.4465, rec=0.0000, this epoch 0.8981, total 35.6434
+(T) | Epoch=041, loss=9.0046, con=8.2671, intent=2.4461, rec=0.0001, this epoch 0.9746, total 36.6179
+(T) | Epoch=042, loss=8.8449, con=8.1144, intent=2.4458, rec=0.0006, this epoch 0.8794, total 37.4973
+(T) | Epoch=043, loss=8.8709, con=8.1865, intent=2.4456, rec=0.0013, this epoch 0.8792, total 38.3765
+(T) | Epoch=044, loss=8.9680, con=8.4315, intent=2.4457, rec=0.0024, this epoch 0.8915, total 39.2680
+(T) | Epoch=045, loss=9.0771, con=8.5971, intent=2.4459, rec=0.0027, this epoch 0.8894, total 40.1574
+(T) | Epoch=046, loss=9.2033, con=8.7092, intent=2.4460, rec=0.0023, this epoch 0.8756, total 41.0329
+(T) | Epoch=047, loss=9.2742, con=8.7397, intent=2.4458, rec=0.0026, this epoch 0.8713, total 41.9043
+(T) | Epoch=048, loss=9.3117, con=8.7272, intent=2.4455, rec=0.0029, this epoch 0.8794, total 42.7837
+(T) | Epoch=049, loss=9.3103, con=8.6847, intent=2.4453, rec=0.0025, this epoch 0.8791, total 43.6628
+(T) | Epoch=050, loss=9.2711, con=8.6160, intent=2.4451, rec=0.0031, this epoch 0.8887, total 44.5515
+(T) | Epoch=051, loss=9.2063, con=8.5277, intent=2.4450, rec=0.0041, this epoch 0.9274, total 45.4789
+(T) | Epoch=052, loss=9.1078, con=8.4125, intent=2.4450, rec=0.0044, this epoch 0.8804, total 46.3593
+(T) | Epoch=053, loss=8.9825, con=8.2794, intent=2.4451, rec=0.0046, this epoch 0.8864, total 47.2457
+(T) | Epoch=054, loss=8.8616, con=8.1575, intent=2.4452, rec=0.0058, this epoch 0.8819, total 48.1277
+(T) | Epoch=055, loss=8.7795, con=8.0807, intent=2.4454, rec=0.0096, this epoch 0.8962, total 49.0239
+(T) | Epoch=056, loss=8.8004, con=8.1133, intent=2.4457, rec=0.0203, this epoch 0.8861, total 49.9100
+(T) | Epoch=057, loss=8.9414, con=8.2766, intent=2.4460, rec=0.0202, this epoch 0.9278, total 50.8379
+(T) | Epoch=058, loss=9.0203, con=8.3808, intent=2.4461, rec=0.0187, this epoch 0.8876, total 51.7255
+(T) | Epoch=059, loss=9.0192, con=8.4051, intent=2.4459, rec=0.0193, this epoch 0.8774, total 52.6028
+(T) | Epoch=060, loss=8.9918, con=8.3966, intent=2.4456, rec=0.0301, this epoch 0.8816, total 53.4844
+(T) | Epoch=061, loss=8.9738, con=8.3905, intent=2.4453, rec=0.0272, this epoch 0.9873, total 54.4717
+(T) | Epoch=062, loss=8.9857, con=8.4014, intent=2.4452, rec=0.0466, this epoch 0.9114, total 55.3831
+(T) | Epoch=063, loss=9.0059, con=8.4154, intent=2.4452, rec=0.0428, this epoch 0.8998, total 56.2829
+(T) | Epoch=064, loss=9.0153, con=8.4152, intent=2.4453, rec=0.0412, this epoch 0.8977, total 57.1805
+(T) | Epoch=065, loss=9.0312, con=8.4155, intent=2.4454, rec=0.0386, this epoch 0.8838, total 58.0643
+(T) | Epoch=066, loss=9.0427, con=8.4088, intent=2.4453, rec=0.0321, this epoch 0.8949, total 58.9593
+(T) | Epoch=067, loss=9.0567, con=8.4077, intent=2.4452, rec=0.0211, this epoch 0.8925, total 59.8517
+(T) | Epoch=068, loss=9.0537, con=8.3906, intent=2.4451, rec=0.0353, this epoch 0.9265, total 60.7782
+(T) | Epoch=069, loss=9.0257, con=8.3555, intent=2.4449, rec=0.0264, this epoch 0.8947, total 61.6729
+(T) | Epoch=070, loss=8.9936, con=8.3160, intent=2.4448, rec=0.0238, this epoch 0.8947, total 62.5676
+(T) | Epoch=071, loss=8.9437, con=8.2613, intent=2.4448, rec=0.0322, this epoch 0.8866, total 63.4542
+(T) | Epoch=072, loss=8.8902, con=8.2074, intent=2.4448, rec=0.0248, this epoch 0.8972, total 64.3513
+(T) | Epoch=073, loss=8.8344, con=8.1535, intent=2.4449, rec=0.0325, this epoch 0.9418, total 65.2931
+(T) | Epoch=074, loss=8.7834, con=8.1065, intent=2.4449, rec=0.0367, this epoch 0.8840, total 66.1771
+(T) | Epoch=075, loss=8.7467, con=8.0779, intent=2.4449, rec=0.0255, this epoch 0.8833, total 67.0604
+(T) | Epoch=076, loss=8.7782, con=8.1193, intent=2.4449, rec=0.0203, this epoch 0.8867, total 67.9471
+(T) | Epoch=077, loss=8.8139, con=8.1643, intent=2.4448, rec=0.0179, this epoch 0.8906, total 68.8376
+(T) | Epoch=078, loss=8.7879, con=8.1483, intent=2.4447, rec=0.0232, this epoch 0.8999, total 69.7376
+(T) | Epoch=079, loss=8.7381, con=8.1058, intent=2.4447, rec=0.0226, this epoch 0.9093, total 70.6469
+(T) | Epoch=080, loss=8.7588, con=8.1339, intent=2.4447, rec=0.0225, this epoch 0.9056, total 71.5525
+(T) | Epoch=081, loss=8.8313, con=8.2088, intent=2.4447, rec=0.0303, this epoch 0.9935, total 72.5460
+(T) | Epoch=082, loss=8.8926, con=8.2709, intent=2.4446, rec=0.0271, this epoch 0.8932, total 73.4392
+(T) | Epoch=083, loss=8.9170, con=8.2907, intent=2.4446, rec=0.0200, this epoch 0.9045, total 74.3437
+(T) | Epoch=084, loss=8.9003, con=8.2676, intent=2.4445, rec=0.0240, this epoch 0.9275, total 75.2712
+(T) | Epoch=085, loss=8.8465, con=8.2039, intent=2.4445, rec=0.0285, this epoch 0.8918, total 76.1630
+(T) | Epoch=086, loss=8.7664, con=8.1176, intent=2.4445, rec=0.0290, this epoch 0.8806, total 77.0436
+(T) | Epoch=087, loss=8.6892, con=8.0315, intent=2.4445, rec=0.0328, this epoch 0.8711, total 77.9147
+(T) | Epoch=088, loss=8.6690, con=8.0072, intent=2.4446, rec=0.0408, this epoch 0.8812, total 78.7960
+(T) | Epoch=089, loss=8.7084, con=8.0451, intent=2.4447, rec=0.0329, this epoch 0.8795, total 79.6754
+(T) | Epoch=090, loss=8.7623, con=8.0997, intent=2.4447, rec=0.0298, this epoch 0.8812, total 80.5566
+(T) | Epoch=091, loss=8.8460, con=8.1897, intent=2.4447, rec=0.0224, this epoch 0.8772, total 81.4338
+(T) | Epoch=092, loss=8.8850, con=8.2327, intent=2.4447, rec=0.0187, this epoch 0.8795, total 82.3133
+(T) | Epoch=093, loss=8.8782, con=8.2327, intent=2.4446, rec=0.0193, this epoch 0.8784, total 83.1917
+(T) | Epoch=094, loss=8.8264, con=8.1865, intent=2.4446, rec=0.0266, this epoch 0.8885, total 84.0802
+(T) | Epoch=095, loss=8.7702, con=8.1372, intent=2.4446, rec=0.0280, this epoch 0.8760, total 84.9562
+(T) | Epoch=096, loss=8.7236, con=8.0965, intent=2.4446, rec=0.0456, this epoch 0.9271, total 85.8833
+(T) | Epoch=097, loss=8.6929, con=8.0690, intent=2.4445, rec=0.0538, this epoch 0.8796, total 86.7630
+(T) | Epoch=098, loss=8.6764, con=8.0563, intent=2.4445, rec=0.0399, this epoch 0.8807, total 87.6437
+(T) | Epoch=099, loss=8.6993, con=8.0766, intent=2.4444, rec=0.0486, this epoch 0.8769, total 88.5206
+(T) | Epoch=100, loss=8.7236, con=8.0978, intent=2.4444, rec=0.0375, this epoch 0.8857, total 89.4063
+(T) | Epoch=101, loss=8.7595, con=8.1285, intent=2.4444, rec=0.0351, this epoch 0.9912, total 90.3975
+(T) | Epoch=102, loss=8.7864, con=8.1475, intent=2.4444, rec=0.0380, this epoch 0.8804, total 91.2780
+(T) | Epoch=103, loss=8.7926, con=8.1461, intent=2.4444, rec=0.0312, this epoch 0.8859, total 92.1639
+(T) | Epoch=104, loss=8.7910, con=8.1358, intent=2.4444, rec=0.0362, this epoch 0.8863, total 93.0502
+(T) | Epoch=105, loss=8.7665, con=8.1031, intent=2.4444, rec=0.0330, this epoch 0.8804, total 93.9306
+(T) | Epoch=106, loss=8.7361, con=8.0666, intent=2.4444, rec=0.0301, this epoch 0.8832, total 94.8138
+(T) | Epoch=107, loss=8.7137, con=8.0362, intent=2.4443, rec=0.0426, this epoch 0.9143, total 95.7281
+(T) | Epoch=108, loss=8.6900, con=8.0122, intent=2.4443, rec=0.0261, this epoch 0.8810, total 96.6091
+(T) | Epoch=109, loss=8.6742, con=7.9948, intent=2.4444, rec=0.0317, this epoch 0.8864, total 97.4955
+(T) | Epoch=110, loss=8.6860, con=8.0075, intent=2.4444, rec=0.0280, this epoch 0.8757, total 98.3712
+(T) | Epoch=111, loss=8.7026, con=8.0290, intent=2.4444, rec=0.0364, this epoch 0.9019, total 99.2731
+(T) | Epoch=112, loss=8.7060, con=8.0369, intent=2.4444, rec=0.0351, this epoch 0.8983, total 100.1714
+(T) | Epoch=113, loss=8.6970, con=8.0337, intent=2.4444, rec=0.0325, this epoch 0.8822, total 101.0535
+(T) | Epoch=114, loss=8.6717, con=8.0130, intent=2.4444, rec=0.0346, this epoch 0.8991, total 101.9526
+(T) | Epoch=115, loss=8.6647, con=8.0112, intent=2.4444, rec=0.0402, this epoch 0.8872, total 102.8399
+(T) | Epoch=116, loss=8.6618, con=8.0121, intent=2.4444, rec=0.0458, this epoch 0.8916, total 103.7314
+(T) | Epoch=117, loss=8.6721, con=8.0278, intent=2.4444, rec=0.0455, this epoch 0.9054, total 104.6368
+(T) | Epoch=118, loss=8.6834, con=8.0428, intent=2.4444, rec=0.0330, this epoch 0.9190, total 105.5558
+(T) | Epoch=119, loss=8.6900, con=8.0524, intent=2.4444, rec=0.0341, this epoch 0.8777, total 106.4335
+(T) | Epoch=120, loss=8.7001, con=8.0587, intent=2.4443, rec=0.0694, this epoch 0.9015, total 107.3350
+(T) | Epoch=121, loss=8.7029, con=8.0640, intent=2.4443, rec=0.0374, this epoch 0.9768, total 108.3118
+(T) | Epoch=122, loss=8.7038, con=8.0595, intent=2.4443, rec=0.0585, this epoch 0.9029, total 109.2147
+(T) | Epoch=123, loss=8.6935, con=8.0485, intent=2.4443, rec=0.0458, this epoch 0.8845, total 110.0992
+(T) | Epoch=124, loss=8.6807, con=8.0307, intent=2.4443, rec=0.0469, this epoch 0.8823, total 110.9815
+(T) | Epoch=125, loss=8.6515, con=7.9990, intent=2.4443, rec=0.0379, this epoch 0.8871, total 111.8686
+(T) | Epoch=126, loss=8.6283, con=7.9713, intent=2.4443, rec=0.0430, this epoch 0.8819, total 112.7505
+(T) | Epoch=127, loss=8.6073, con=7.9466, intent=2.4443, rec=0.0440, this epoch 0.8855, total 113.6361
+(T) | Epoch=128, loss=8.6027, con=7.9402, intent=2.4443, rec=0.0384, this epoch 0.8832, total 114.5193
+(T) | Epoch=129, loss=8.6027, con=7.9366, intent=2.4443, rec=0.0336, this epoch 0.9384, total 115.4577
+(T) | Epoch=130, loss=8.6268, con=7.9582, intent=2.4443, rec=0.0364, this epoch 0.8834, total 116.3410
+(T) | Epoch=131, loss=8.6486, con=7.9797, intent=2.4443, rec=0.0348, this epoch 0.8881, total 117.2291
+(T) | Epoch=132, loss=8.6667, con=7.9986, intent=2.4443, rec=0.0387, this epoch 0.8896, total 118.1187
+(T) | Epoch=133, loss=8.6619, con=7.9952, intent=2.4443, rec=0.0332, this epoch 0.9035, total 119.0222
+(T) | Epoch=134, loss=8.6451, con=7.9812, intent=2.4443, rec=0.0338, this epoch 0.8841, total 119.9063
+(T) | Epoch=135, loss=8.6158, con=7.9527, intent=2.4443, rec=0.0312, this epoch 0.9289, total 120.8353
+(T) | Epoch=136, loss=8.5850, con=7.9234, intent=2.4443, rec=0.0388, this epoch 0.8904, total 121.7256
+(T) | Epoch=137, loss=8.5699, con=7.9114, intent=2.4443, rec=0.0270, this epoch 0.8831, total 122.6087
+(T) | Epoch=138, loss=8.5792, con=7.9208, intent=2.4443, rec=0.0303, this epoch 0.8901, total 123.4988
+(T) | Epoch=139, loss=8.5883, con=7.9300, intent=2.4443, rec=0.0327, this epoch 0.8899, total 124.3888
+(T) | Epoch=140, loss=8.6038, con=7.9459, intent=2.4443, rec=0.0256, this epoch 0.9090, total 125.2977
+(T) | Epoch=141, loss=8.6112, con=7.9514, intent=2.4443, rec=0.0371, this epoch 1.0862, total 126.3839
+(T) | Epoch=142, loss=8.6140, con=7.9534, intent=2.4443, rec=0.0284, this epoch 0.8835, total 127.2674
+(T) | Epoch=143, loss=8.6060, con=7.9415, intent=2.4443, rec=0.0464, this epoch 0.8836, total 128.1510
+(T) | Epoch=144, loss=8.5967, con=7.9300, intent=2.4443, rec=0.0410, this epoch 0.8932, total 129.0442
+(T) | Epoch=145, loss=8.5744, con=7.9083, intent=2.4443, rec=0.0313, this epoch 0.8899, total 129.9341
+(T) | Epoch=146, loss=8.5698, con=7.9032, intent=2.4443, rec=0.0260, this epoch 0.9319, total 130.8660
+(T) | Epoch=147, loss=8.5671, con=7.8985, intent=2.4443, rec=0.0301, this epoch 0.8930, total 131.7590
+(T) | Epoch=148, loss=8.5687, con=7.9005, intent=2.4443, rec=0.0322, this epoch 0.8952, total 132.6543
+(T) | Epoch=149, loss=8.5640, con=7.8976, intent=2.4443, rec=0.0282, this epoch 0.8864, total 133.5407
+(T) | Epoch=150, loss=8.5672, con=7.9005, intent=2.4443, rec=0.0318, this epoch 0.8877, total 134.4283
+(T) | Epoch=151, loss=8.5521, con=7.8912, intent=2.4443, rec=0.0234, this epoch 0.9222, total 135.3505
+(T) | Epoch=152, loss=8.5424, con=7.8829, intent=2.4443, rec=0.0256, this epoch 0.8816, total 136.2321
+(T) | Epoch=153, loss=8.5296, con=7.8714, intent=2.4443, rec=0.0346, this epoch 0.8783, total 137.1105
+(T) | Epoch=154, loss=8.5305, con=7.8743, intent=2.4443, rec=0.0249, this epoch 0.8878, total 137.9982
+(T) | Epoch=155, loss=8.5458, con=7.8912, intent=2.4443, rec=0.0281, this epoch 0.8812, total 138.8795
+(T) | Epoch=156, loss=8.5630, con=7.9064, intent=2.4443, rec=0.0346, this epoch 0.8874, total 139.7668
+(T) | Epoch=157, loss=8.5644, con=7.9080, intent=2.4443, rec=0.0379, this epoch 0.8967, total 140.6635
+(T) | Epoch=158, loss=8.5498, con=7.8943, intent=2.4443, rec=0.0348, this epoch 0.8850, total 141.5486
+(T) | Epoch=159, loss=8.5185, con=7.8640, intent=2.4443, rec=0.0248, this epoch 0.8867, total 142.4353
+(T) | Epoch=160, loss=8.4940, con=7.8357, intent=2.4443, rec=0.0455, this epoch 0.8844, total 143.3197
+(T) | Epoch=161, loss=8.4829, con=7.8230, intent=2.4443, rec=0.0458, this epoch 0.9935, total 144.3131
+(T) | Epoch=162, loss=8.5003, con=7.8434, intent=2.4443, rec=0.0305, this epoch 0.9395, total 145.2526
+(T) | Epoch=163, loss=8.5314, con=7.8742, intent=2.4443, rec=0.0331, this epoch 0.9201, total 146.1728
+(T) | Epoch=164, loss=8.5562, con=7.8957, intent=2.4443, rec=0.0426, this epoch 0.8974, total 147.0701
+(T) | Epoch=165, loss=8.5622, con=7.9045, intent=2.4443, rec=0.0378, this epoch 0.8970, total 147.9671
+(T) | Epoch=166, loss=8.5232, con=7.8646, intent=2.4443, rec=0.0432, this epoch 0.8941, total 148.8612
+(T) | Epoch=167, loss=8.4697, con=7.8145, intent=2.4443, rec=0.0329, this epoch 0.9073, total 149.7685
+(T) | Epoch=168, loss=8.4429, con=7.7883, intent=2.4443, rec=0.0412, this epoch 0.8894, total 150.6579
+(T) | Epoch=169, loss=8.4694, con=7.8155, intent=2.4443, rec=0.0466, this epoch 0.8947, total 151.5526
+(T) | Epoch=170, loss=8.5204, con=7.8675, intent=2.4443, rec=0.0637, this epoch 0.8991, total 152.4517
+(T) | Epoch=171, loss=8.5581, con=7.9090, intent=2.4443, rec=0.0297, this epoch 0.8885, total 153.3403
+(T) | Epoch=172, loss=8.5601, con=7.9107, intent=2.4443, rec=0.0405, this epoch 0.9066, total 154.2468
+(T) | Epoch=173, loss=8.5238, con=7.8734, intent=2.4443, rec=0.0382, this epoch 0.9229, total 155.1698
+(T) | Epoch=174, loss=8.4744, con=7.8228, intent=2.4443, rec=0.0448, this epoch 0.8860, total 156.0558
+(T) | Epoch=175, loss=8.4425, con=7.7902, intent=2.4443, rec=0.0514, this epoch 0.9102, total 156.9660
+(T) | Epoch=176, loss=8.4527, con=7.7977, intent=2.4443, rec=0.0446, this epoch 0.8901, total 157.8561
+(T) | Epoch=177, loss=8.4991, con=7.8424, intent=2.4443, rec=0.0465, this epoch 0.8921, total 158.7482
+(T) | Epoch=178, loss=8.5464, con=7.8863, intent=2.4443, rec=0.0484, this epoch 0.9070, total 159.6552
+(T) | Epoch=179, loss=8.5646, con=7.9033, intent=2.4443, rec=0.0610, this epoch 0.9462, total 160.6014
+(T) | Epoch=180, loss=8.5476, con=7.8848, intent=2.4443, rec=0.0567, this epoch 0.8969, total 161.4983
+(T) | Epoch=181, loss=8.5118, con=7.8472, intent=2.4443, rec=0.0598, this epoch 1.0020, total 162.5003
+(T) | Epoch=182, loss=8.4669, con=7.8047, intent=2.4443, rec=0.0482, this epoch 0.8869, total 163.3872
+(T) | Epoch=183, loss=8.4497, con=7.7904, intent=2.4443, rec=0.0440, this epoch 0.9091, total 164.2963
+(T) | Epoch=184, loss=8.4757, con=7.8177, intent=2.4443, rec=0.0653, this epoch 0.9398, total 165.2361
+(T) | Epoch=185, loss=8.4941, con=7.8392, intent=2.4443, rec=0.0567, this epoch 0.8969, total 166.1330
+(T) | Epoch=186, loss=8.5092, con=7.8572, intent=2.4443, rec=0.0522, this epoch 0.9043, total 167.0373
+(T) | Epoch=187, loss=8.5257, con=7.8746, intent=2.4443, rec=0.0510, this epoch 0.8900, total 167.9273
+(T) | Epoch=188, loss=8.5305, con=7.8786, intent=2.4443, rec=0.0623, this epoch 0.9057, total 168.8330
+(T) | Epoch=189, loss=8.5264, con=7.8749, intent=2.4443, rec=0.0536, this epoch 0.8925, total 169.7255
+(T) | Epoch=190, loss=8.5182, con=7.8654, intent=2.4443, rec=0.0554, this epoch 0.9205, total 170.6460
+(T) | Epoch=191, loss=8.5132, con=7.8557, intent=2.4443, rec=0.0698, this epoch 0.8890, total 171.5351
+(T) | Epoch=192, loss=8.5010, con=7.8416, intent=2.4443, rec=0.0716, this epoch 0.8970, total 172.4321
+(T) | Epoch=193, loss=8.4880, con=7.8264, intent=2.4443, rec=0.0599, this epoch 0.8945, total 173.3266
+(T) | Epoch=194, loss=8.4768, con=7.8116, intent=2.4443, rec=0.0637, this epoch 0.8957, total 174.2223
+(T) | Epoch=195, loss=8.4708, con=7.8028, intent=2.4443, rec=0.0766, this epoch 0.9001, total 175.1224
+(T) | Epoch=196, loss=8.4599, con=7.7914, intent=2.4443, rec=0.0564, this epoch 0.8987, total 176.0211
+(T) | Epoch=197, loss=8.4622, con=7.7917, intent=2.4443, rec=0.0727, this epoch 0.8932, total 176.9143
+(T) | Epoch=198, loss=8.4607, con=7.7906, intent=2.4443, rec=0.0608, this epoch 0.8889, total 177.8031
+(T) | Epoch=199, loss=8.4788, con=7.8096, intent=2.4443, rec=0.0810, this epoch 0.8889, total 178.6921
+(T) | Epoch=200, loss=8.5033, con=7.8395, intent=2.4443, rec=0.0709, this epoch 0.9085, total 179.6006
+[ckpt] final checkpoint saved -> checkpoints/ckpt_ACM_gcn.pt
+[AC] 训练 Actor-Critic 对抗图生成器 (100 轮)...
+[AC] 开始训练 2026-09-01 15:25:25
+[AC] Epoch=001, avg_return=390.9864, loss=2648.3839, this epoch 35.11s, total 35.11s
+[AC] Epoch=002, avg_return=420.3306, loss=2718.2906, this epoch 37.24s, total 72.36s
+[AC] Epoch=003, avg_return=438.1995, loss=2623.2539, this epoch 42.27s, total 114.62s
+[AC] Epoch=004, avg_return=426.2494, loss=2474.3820, this epoch 40.45s, total 155.07s
+[AC] Epoch=005, avg_return=529.8547, loss=3008.1610, this epoch 48.27s, total 203.35s
+[AC] Epoch=006, avg_return=511.8356, loss=2840.4315, this epoch 45.61s, total 248.95s
+[AC] Epoch=007, avg_return=571.6881, loss=2990.1201, this epoch 49.33s, total 298.28s
+[AC] Epoch=008, avg_return=562.8636, loss=2641.2571, this epoch 48.22s, total 346.50s
+[AC] Epoch=009, avg_return=641.3494, loss=2863.4974, this epoch 53.80s, total 400.30s
+[AC] Epoch=010, avg_return=682.3941, loss=2949.8405, this epoch 52.74s, total 453.04s
+[AC] Epoch=011, avg_return=688.6069, loss=2781.3522, this epoch 54.20s, total 507.23s
+[AC] Epoch=012, avg_return=660.8445, loss=2378.4149, this epoch 54.93s, total 562.16s
+[AC] Epoch=013, avg_return=715.3127, loss=2489.0663, this epoch 55.51s, total 617.67s
+[AC] Epoch=014, avg_return=636.4873, loss=1766.4659, this epoch 55.75s, total 673.41s
+[AC] Epoch=015, avg_return=681.4177, loss=1867.5300, this epoch 56.40s, total 729.81s
+[AC] Epoch=016, avg_return=724.5726, loss=1930.9304, this epoch 56.43s, total 786.24s
+[AC] Epoch=017, avg_return=668.2815, loss=1255.6794, this epoch 69.58s, total 855.83s
+[AC] Epoch=018, avg_return=670.9698, loss=1080.4984, this epoch 71.61s, total 927.44s
+[AC] Epoch=019, avg_return=738.6814, loss=1317.7208, this epoch 82.57s, total 1010.00s
+[AC] Epoch=020, avg_return=698.5199, loss=884.8839, this epoch 77.61s, total 1087.61s
+[AC] Epoch=021, avg_return=758.0393, loss=1002.1648, this epoch 65.76s, total 1153.37s
+[AC] Epoch=022, avg_return=653.5466, loss=307.0854, this epoch 64.79s, total 1218.16s
+[AC] Epoch=023, avg_return=767.8597, loss=689.9182, this epoch 62.98s, total 1281.14s
+[AC] Epoch=024, avg_return=698.6417, loss=137.6844, this epoch 66.16s, total 1347.30s
+[AC] Epoch=025, avg_return=773.1305, loss=407.4771, this epoch 63.92s, total 1411.22s
+[AC] Epoch=026, avg_return=796.7107, loss=402.8007, this epoch 64.66s, total 1475.89s
+[AC] Epoch=027, avg_return=725.0253, loss=-58.4007, this epoch 61.96s, total 1537.84s
+[AC] Epoch=028, avg_return=740.4486, loss=-134.4725, this epoch 58.30s, total 1596.14s
+[AC] Epoch=029, avg_return=721.2955, loss=-250.4141, this epoch 55.80s, total 1651.94s
+[AC] Epoch=030, avg_return=707.5544, loss=-414.7130, this epoch 76.73s, total 1728.67s
+[AC] Epoch=031, avg_return=769.7120, loss=-88.6550, this epoch 89.16s, total 1817.83s
+[AC] Epoch=032, avg_return=756.2665, loss=-159.2458, this epoch 89.92s, total 1907.75s
+[AC] Epoch=033, avg_return=709.2516, loss=-347.8421, this epoch 89.34s, total 1997.08s
+[AC] Epoch=034, avg_return=762.0973, loss=-218.6487, this epoch 89.94s, total 2087.02s
+[AC] Epoch=035, avg_return=769.3095, loss=-107.8777, this epoch 66.93s, total 2153.95s
+[AC] Epoch=036, avg_return=793.3163, loss=-21.8005, this epoch 63.15s, total 2217.10s
+[AC] Epoch=037, avg_return=761.1887, loss=-90.5776, this epoch 63.42s, total 2280.52s
+[AC] Epoch=038, avg_return=728.2446, loss=-196.2145, this epoch 63.70s, total 2344.22s
+[AC] Epoch=039, avg_return=725.6809, loss=-133.5665, this epoch 65.12s, total 2409.33s
+[AC] Epoch=040, avg_return=733.4237, loss=-74.0447, this epoch 64.27s, total 2473.60s
+[AC] Epoch=041, avg_return=738.2781, loss=-28.8281, this epoch 64.26s, total 2537.86s
+[AC] Epoch=042, avg_return=724.1283, loss=19.6636, this epoch 60.19s, total 2598.05s
+[AC] Epoch=043, avg_return=708.4620, loss=-2.0836, this epoch 55.65s, total 2653.70s
+[AC] Epoch=044, avg_return=800.5779, loss=319.9855, this epoch 57.69s, total 2711.40s
+[AC] Epoch=045, avg_return=767.8787, loss=308.8988, this epoch 58.58s, total 2769.97s
+[AC] Epoch=046, avg_return=750.8645, loss=234.1461, this epoch 63.49s, total 2833.46s
+[AC] Epoch=047, avg_return=760.6576, loss=347.1440, this epoch 58.01s, total 2891.47s
+[AC] Epoch=048, avg_return=650.0577, loss=-23.1643, this epoch 81.78s, total 2973.25s
+[AC] Epoch=049, avg_return=740.6230, loss=385.2052, this epoch 80.58s, total 3053.83s
+[AC] Epoch=050, avg_return=678.1509, loss=211.3615, this epoch 81.68s, total 3135.52s
+[AC] Epoch=051, avg_return=712.0765, loss=213.2381, this epoch 66.45s, total 3201.97s
+[AC] Epoch=052, avg_return=726.8266, loss=427.2905, this epoch 63.98s, total 3265.95s
+[AC] Epoch=053, avg_return=718.8573, loss=308.7909, this epoch 65.96s, total 3331.91s
+[AC] Epoch=054, avg_return=718.0426, loss=382.9019, this epoch 64.72s, total 3396.63s
+[AC] Epoch=055, avg_return=722.7459, loss=402.3701, this epoch 63.79s, total 3460.42s
+[AC] Epoch=056, avg_return=720.2687, loss=441.2341, this epoch 64.92s, total 3525.34s
+[AC] Epoch=057, avg_return=719.9776, loss=318.7324, this epoch 65.03s, total 3590.37s
+[AC] Epoch=058, avg_return=711.9597, loss=346.3441, this epoch 60.84s, total 3651.20s
+[AC] Epoch=059, avg_return=738.8161, loss=323.3454, this epoch 81.86s, total 3733.06s
+Traceback (most recent call last):
+  File "train_ig.py", line 2175, in <module>
+    train_actor_critic(
+  File "/root/IG-ACS/actor_critic.py", line 225, in train_actor_critic
+    log_probs, values, returns = builder.rollout(
+  File "/root/IG-ACS/actor_critic.py", line 159, in rollout
+    frontier_list = self._frontier_list(zc, z_q, frontier)
+  File "/root/IG-ACS/actor_critic.py", line 56, in _frontier_list
+    idx = torch.tensor(sorted(frontier), device=zc.device)
+KeyboardInterrupt
