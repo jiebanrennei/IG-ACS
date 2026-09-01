@@ -1,0 +1,62 @@
+[log] 运行日志写入: log/run_IMDB_NEW_20260901_091729.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using GPU: NVIDIA GeForce RTX 3090
+/root/miniconda3/lib/python3.8/site-packages/scipy/sparse/_index.py:146: SparseEfficiencyWarning: Changing the sparsity structure of a csr_matrix is expensive. lil_matrix is more efficient.
+  self._set_arrayXarray(i, j, x)
+  [cs_full_graph] IMDB_NEW: merged ['mam.npz', 'mdm.npz'] -> 159228 directed edges (no sparsify)
+[data] Graph size: 4500 nodes, 159228 edges
+[data] GPU memory: 25.3 GB
+[data] Using high-memory thresholds (80K nodes, 500K edges)
+[intent] source=random, dim=256
+[encoder] vanilla GATConv
+(T) | Epoch=001, loss=10.5444, con=9.1002, intent=4.8566, rec=0.0005, this epoch 3.1189, total 3.1189
+(T) | Epoch=002, loss=10.3159, con=9.0761, intent=4.1080, rec=0.0001, this epoch 2.8193, total 5.9383
+(T) | Epoch=003, loss=10.1359, con=9.0576, intent=3.5382, rec=0.0010, this epoch 2.6491, total 8.5873
+(T) | Epoch=004, loss=9.9255, con=8.9649, intent=3.1372, rec=0.0001, this epoch 2.9620, total 11.5493
+(T) | Epoch=005, loss=9.9526, con=9.0606, intent=2.9061, rec=0.0000, this epoch 2.8486, total 14.3979
+(T) | Epoch=006, loss=9.9204, con=9.0733, intent=2.7574, rec=0.0001, this epoch 2.6411, total 17.0390
+(T) | Epoch=007, loss=9.8876, con=9.0709, intent=2.6579, rec=0.0001, this epoch 2.9416, total 19.9806
+(T) | Epoch=008, loss=9.8573, con=9.0613, intent=2.5914, rec=0.0000, this epoch 2.8341, total 22.8147
+(T) | Epoch=009, loss=9.8236, con=9.0410, intent=2.5496, rec=0.0002, this epoch 2.6901, total 25.5048
+(T) | Epoch=010, loss=9.7735, con=8.9992, intent=2.5246, rec=0.0001, this epoch 2.9321, total 28.4369
+(T) | Epoch=011, loss=9.6878, con=8.9191, intent=2.5087, rec=0.0002, this epoch 2.7968, total 31.2337
+(T) | Epoch=012, loss=9.4801, con=8.7157, intent=2.4974, rec=0.0002, this epoch 2.8212, total 34.0549
+(T) | Epoch=013, loss=9.5092, con=8.7479, intent=2.4911, rec=0.0001, this epoch 2.8777, total 36.9326
+(T) | Epoch=014, loss=9.1219, con=8.3641, intent=2.4826, rec=0.0003, this epoch 2.8303, total 39.7629
+(T) | Epoch=015, loss=9.7290, con=8.9737, intent=2.4764, rec=0.0002, this epoch 2.8581, total 42.6210
+(T) | Epoch=016, loss=9.8318, con=9.0782, intent=2.4728, rec=0.0001, this epoch 2.7006, total 45.3216
+(T) | Epoch=017, loss=9.8436, con=9.0916, intent=2.4700, rec=0.0001, this epoch 2.9010, total 48.2226
+(T) | Epoch=018, loss=9.8464, con=9.0960, intent=2.4671, rec=0.0000, this epoch 2.8489, total 51.0715
+(T) | Epoch=019, loss=9.8471, con=9.0981, intent=2.4643, rec=0.0000, this epoch 2.6456, total 53.7170
+(T) | Epoch=020, loss=9.8468, con=9.0993, intent=2.4618, rec=0.0000, this epoch 2.8614, total 56.5785
+(T) | Epoch=021, loss=9.8448, con=9.0986, intent=2.4597, rec=0.0000, this epoch 2.9813, total 59.5598
+(T) | Epoch=022, loss=9.8445, con=9.0994, intent=2.4580, rec=0.0000, this epoch 2.8302, total 62.3900
+(T) | Epoch=023, loss=9.8441, con=9.0999, intent=2.4568, rec=0.0000, this epoch 2.9163, total 65.3063
+(T) | Epoch=024, loss=9.8435, con=9.1003, intent=2.4556, rec=0.0000, this epoch 2.8435, total 68.1498
+(T) | Epoch=025, loss=9.8429, con=9.1006, intent=2.4544, rec=0.0000, this epoch 2.7654, total 70.9151
+(T) | Epoch=026, loss=9.8422, con=9.1008, intent=2.4531, rec=0.0000, this epoch 2.9878, total 73.9029
+(T) | Epoch=027, loss=9.8414, con=9.1009, intent=2.4518, rec=0.0003, this epoch 2.8450, total 76.7479
+(T) | Epoch=028, loss=9.8407, con=9.1009, intent=2.4507, rec=0.0002, this epoch 2.6850, total 79.4330
+(T) | Epoch=029, loss=9.8400, con=9.1010, intent=2.4497, rec=0.0002, this epoch 2.6736, total 82.1066
+(T) | Epoch=030, loss=9.8395, con=9.1010, intent=2.4491, rec=0.0001, this epoch 3.0059, total 85.1124
+(T) | Epoch=031, loss=9.8390, con=9.1009, intent=2.4487, rec=0.0003, this epoch 2.8478, total 87.9602
+(T) | Epoch=032, loss=9.8385, con=9.1008, intent=2.4483, rec=0.0002, this epoch 2.6739, total 90.6341
+(T) | Epoch=033, loss=9.8380, con=9.1007, intent=2.4480, rec=0.0002, this epoch 2.9025, total 93.5366
+(T) | Epoch=034, loss=9.8375, con=9.1006, intent=2.4477, rec=0.0004, this epoch 2.9233, total 96.4599
+(T) | Epoch=035, loss=9.8371, con=9.1005, intent=2.4474, rec=0.0003, this epoch 2.9187, total 99.3786
+(T) | Epoch=036, loss=9.8366, con=9.1003, intent=2.4472, rec=0.0003, this epoch 2.6804, total 102.0590
+(T) | Epoch=037, loss=9.8361, con=9.1001, intent=2.4469, rec=0.0005, this epoch 2.7917, total 104.8507
+(T) | Epoch=038, loss=9.8357, con=9.0999, intent=2.4467, rec=0.0004, this epoch 3.1178, total 107.9685
+(T) | Epoch=039, loss=9.8352, con=9.0996, intent=2.4465, rec=0.0004, this epoch 2.9051, total 110.8735
+(T) | Epoch=040, loss=9.8347, con=9.0993, intent=2.4463, rec=0.0004, this epoch 2.6230, total 113.4965
+(T) | Epoch=041, loss=9.8342, con=9.0989, intent=2.4462, rec=0.0005, this epoch 3.2381, total 116.7346
+(T) | Epoch=042, loss=9.8336, con=9.0985, intent=2.4461, rec=0.0004, this epoch 2.8669, total 119.6015
+(T) | Epoch=043, loss=9.8330, con=9.0980, intent=2.4460, rec=0.0005, this epoch 2.7391, total 122.3406
+(T) | Epoch=044, loss=9.8323, con=9.0974, intent=2.4459, rec=0.0005, this epoch 3.0267, total 125.3673
+(T) | Epoch=045, loss=9.8315, con=9.0967, intent=2.4459, rec=0.0004, this epoch 2.8295, total 128.1968
+(T) | Epoch=046, loss=9.8306, con=9.0959, intent=2.4458, rec=0.0005, this epoch 2.7892, total 130.9859
+(T) | Epoch=047, loss=9.8296, con=9.0949, intent=2.4458, rec=0.0005, this epoch 2.8056, total 133.7916
+(T) | Epoch=048, loss=9.8283, con=9.0938, intent=2.4458, rec=0.0005, this epoch 2.9504, total 136.7419
+(T) | Epoch=049, loss=9.8268, con=9.0923, intent=2.4457, rec=0.0006, this epoch 2.8134, total 139.5553
+(T) | Epoch=050, loss=9.8249, con=9.0905, intent=2.4457, rec=0.0006, this epoch 2.6908, total 142.2461

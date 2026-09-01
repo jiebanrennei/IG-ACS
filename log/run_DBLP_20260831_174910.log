@@ -1,0 +1,93 @@
+[log] 运行日志写入: log/run_DBLP_20260831_174910.log
+[config] cand_sources=embed num_cand_per_node=5 cand_label_mode=soft cand_dist_k=16 cand_dist_tau=0.2 lambda_cand_bce=0.0 lambda_ic_spnm=0.0 ic_spnm_pos=20 ic_spnm_neg=256 ic_spnm_hard_pool=2048 ic_spnm_pos_mode=neighbor ic_spnm_frontier_ratio=0.5 ic_spnm_frontier_hops=2 lambda_ilssc=0.0 ilssc_seed_size=8 ilssc_neg=256 ilssc_hard_pool=2048 ilssc_hops=2 ilssc_neg_mode=conservative ilssc_gate_mode=prior ilssc_high_order_beta=0.0 ilssc_warmup=0 ilssc_ramp=0 ilssc_use_intent_dist=False intent_dist_k=16 intent_dist_tau=0.2 intent_dist_beta=0.5 intent_dist_proto_mode=random intent_dist_stable=False intent_dist_update_interval=10 intent_dist_ema=0.7 intent_dist_anchor_pool=0 intent_dist_conf_tau=0.05 intent_dist_min_conf=0.0 relation_fusion=icra cs_topk=(10, 20, 50, 'oracle') cs_w_list=(0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0) greedy_patience=0 greedy_min_gain_tol=0.0 greedy_size_penalty=0.0 greedy_balance_alpha=0.15 greedy_max_size=0 greedy_adaptive_cap_alpha=0.0 greedy_adaptive_cap_floor=0 greedy_trace_cap_ratio=1.5 trace_early_stop_w=None frontier_batch_size=1 greedy_connectivity_boost=0.0 greedy_select_mode=first_drop greedy_init_seed_size=1 greedy_init_seed_hops=1 greedy_init_seed_conn_beta=0.3 greedy_high_order_beta=0.0 greedy_comm_cohesion_beta=0.0 greedy_comm_direct_beta=0.0 greedy_boundary_gamma=0.0 greedy_hse_pool_size=0 greedy_hse_normalize=False greedy_hse_density=False greedy_recall_expand_size=0 greedy_recall_min_sim_delta=0.0 acs_seed_topk=0 acs_rec_radius=2 acs_anomaly_boost=0.0 include_query_in_pred=False eval_perturb=none:0.0 model_name=None seed=123
+Using CPU
+Using GPU: NVIDIA GeForce RTX 3090
+  [cs_full_graph] DBLP: merged ['apa.npz', 'apcpa.npz', 'aptpa.npz'] -> 8947540 directed edges (no sparsify)
+/root/miniconda3/lib/python3.8/site-packages/scipy/sparse/_index.py:146: SparseEfficiencyWarning: Changing the sparsity structure of a csr_matrix is expensive. lil_matrix is more efficient.
+  self._set_arrayXarray(i, j, x)
+  [sparsify] apcpa.npz: 5000495 -> 394878 edges (avg_deg 1233 -> 97, top-k=50)
+  [sparsify] aptpa.npz: 7043571 -> 392096 edges (avg_deg 1736 -> 97, top-k=50)
+[data] 多关系 R=3: apa(7056 edges), apcpa(394878 edges), aptpa(392096 edges)
+[data] Graph size: 4057 nodes, 7056 edges
+[data] GPU memory: 25.3 GB
+[data] Using high-memory thresholds (80K nodes, 500K edges)
+[intent] source=random, dim=256
+[encoder] MultiRelation+ICRA  R=3 hii_heads=4 icra_heads=4 icra_dim=128
+(T) | Epoch=001, loss=10.3996, con=8.4541, intent=5.1197, rec=0.0168, this epoch 2.0360, total 2.0360  alpha=[apa:0.334, apcpa:0.339, aptpa:0.327]
+(T) | Epoch=002, loss=9.8487, con=8.3777, intent=4.2412, rec=0.0156, this epoch 1.7328, total 3.7688
+(T) | Epoch=003, loss=9.4611, con=8.2680, intent=3.6513, rec=0.0122, this epoch 1.7306, total 5.4994
+(T) | Epoch=004, loss=9.1525, con=8.1152, intent=3.3088, rec=0.0157, this epoch 1.7332, total 7.2326
+(T) | Epoch=005, loss=8.9082, con=7.9630, intent=3.0800, rec=0.0135, this epoch 1.7928, total 9.0253
+(T) | Epoch=006, loss=8.7424, con=7.8558, intent=2.9251, rec=0.0136, this epoch 1.8642, total 10.8896
+(T) | Epoch=007, loss=8.6385, con=7.7905, intent=2.8194, rec=0.0118, this epoch 1.7363, total 12.6258
+(T) | Epoch=008, loss=8.5858, con=7.7592, intent=2.7446, rec=0.0130, this epoch 1.7373, total 14.3631
+(T) | Epoch=009, loss=8.5142, con=7.7019, intent=2.6923, rec=0.0134, this epoch 1.7423, total 16.1054
+(T) | Epoch=010, loss=8.4527, con=7.6471, intent=2.6555, rec=0.0149, this epoch 1.7540, total 17.8594  alpha=[apa:0.424, apcpa:0.281, aptpa:0.296]
+(T) | Epoch=011, loss=8.4278, con=7.6279, intent=2.6293, rec=0.0156, this epoch 1.7325, total 19.5919
+(T) | Epoch=012, loss=8.3970, con=7.6005, intent=2.6100, rec=0.0156, this epoch 1.7316, total 21.3235
+(T) | Epoch=013, loss=8.3460, con=7.5491, intent=2.5954, rec=0.0154, this epoch 1.8002, total 23.1238
+(T) | Epoch=014, loss=8.2972, con=7.5020, intent=2.5836, rec=0.0184, this epoch 1.7430, total 24.8667
+(T) | Epoch=015, loss=8.2739, con=7.4790, intent=2.5731, rec=0.0189, this epoch 1.7451, total 26.6118
+(T) | Epoch=016, loss=8.2610, con=7.4681, intent=2.5632, rec=0.0207, this epoch 1.7647, total 28.3766
+(T) | Epoch=017, loss=8.2413, con=7.4501, intent=2.5542, rec=0.0259, this epoch 1.7529, total 30.1295
+(T) | Epoch=018, loss=8.2021, con=7.4147, intent=2.5460, rec=0.0222, this epoch 1.9146, total 32.0441
+Traceback (most recent call last):
+  File "train_ig.py", line 1903, in <module>
+    z_adv, z_rec, reg, fea_up, fea_lo, _ = build_views(
+  File "train_ig.py", line 1807, in _build_views_multi
+    za = cont_m(data.x, data.edge_index_list, adv_ws, intent)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/IG-ACS/ig_model.py", line 495, in forward
+    return self.encoder(x, edge_index, edge_weight, intent)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/IG-ACS/multi_relation_fusion.py", line 191, in forward
+    _, fused, _ = self.encode_per_relation(
+  File "/root/IG-ACS/multi_relation_fusion.py", line 186, in encode_per_relation
+    zs.append(self.encoders[r](x, edge_index_list[r], ew, intent))
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/IG-ACS/hii_gnn.py", line 146, in forward
+    h = _local_forward(x)
+  File "/root/IG-ACS/hii_gnn.py", line 138, in _local_forward
+    return self.activation(self.local(inp, edge_index, edge_weight, intent_h))
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/IG-ACS/hii_gnn.py", line 53, in forward
+    out = self.conv(h, edge_index, edge_weight)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/nn/conv/gcn_conv.py", line 263, in forward
+    out = self.propagate(edge_index, x=x, edge_weight=edge_weight)
+  File "/tmp/torch_geometric.nn.conv.gcn_conv_GCNConv_propagate_yxha7gwc.py", line 245, in propagate
+    out = self.aggregate(
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/nn/conv/message_passing.py", line 594, in aggregate
+    return self.aggr_module(inputs, index, ptr=ptr, dim_size=dim_size,
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/experimental.py", line 117, in wrapper
+    return func(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/nn/aggr/base.py", line 139, in __call__
+    raise e
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/nn/aggr/base.py", line 131, in __call__
+    return super().__call__(x, index=index, ptr=ptr, dim_size=dim_size,
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/nn/aggr/basic.py", line 22, in forward
+    return self.reduce(x, index, ptr, dim_size, dim, reduce='sum')
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/nn/aggr/base.py", line 185, in reduce
+    return scatter(x, index, dim, dim_size, reduce)
+  File "/root/miniconda3/lib/python3.8/site-packages/torch_geometric/utils/_scatter.py", line 75, in scatter
+    return src.new_zeros(size).scatter_add_(dim, index, src)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 386.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 43.75 MiB is free. Including non-PyTorch memory, this process has 9.99 GiB memory in use. Process 6739 has 13.47 GiB memory in use. Of the allocated memory 9.57 GiB is allocated by PyTorch, and 71.07 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
