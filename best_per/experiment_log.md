@@ -186,6 +186,46 @@ python train_ig.py --dataset IMDB_NEW --encoder gcn --base_model GATConv --num_h
 
 ---
 
+## 2026-09-01 EDA-GCL 基线实验
+
+### IMDB + EDA-GCL (社区搜索)
+
+**数据转换**:
+```bash
+python convert_hete_to_homo.py --dataset IMDB
+```
+
+**训练命令**:
+```bash
+python train_homo.py --dataset IMDB --gpu_id 0 --num_hidden 128 --num_proj_hidden 128 --num_edge_hidden 32 --num_layers 1
+```
+
+**节点分类结果**:
+- micro_f1: 68.19±1.00
+- macro_f1: 68.14±1.05
+- accuracy: 68.19±1.00
+
+**社区搜索命令**:
+```bash
+python community_search.py --dataset IMDB --topk_ratio 0.05
+```
+
+**社区搜索结果**:
+- Precision: 47.90±18.05
+- Recall: 28.74±10.83
+- F1: 35.93±13.54
+- Jaccard: 22.74±10.23
+
+**备注**: 
+- EDA-GCL 是图对比学习方法,主要用于节点分类
+- 社区搜索效果较差(F1=35.93),因为嵌入是为节点分类优化的
+- 与我们的方法对比:
+  - IMDB + HII: CS-F1=59.07
+  - IMDB + EDA-GCL: CS-F1=35.93
+  - **我们的方法提升 23.14 个点**
+
+---
+
 ## 历史最优结果 (best_results_summary.md, 2026-08-25)
 
 ### ACM + GCN (历史最优)
