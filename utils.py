@@ -205,6 +205,20 @@ def _load_com_youtube_dataset(root_path):
         'com-youtube')
 
 
+def _load_com_livejournal_dataset(root_path):
+    return _load_snap_community_dataset(
+        root_path, 'com-LiveJournal',
+        'com-lj.ungraph.txt', 'com-lj.top5000.cmty.txt',
+        'com-livejournal')
+
+
+def _load_com_twitter_dataset(root_path):
+    return _load_snap_community_dataset(
+        root_path, 'com-Twitter',
+        'com-twitter.ungraph.txt', 'com-twitter.top5000.cmty.txt',
+        'com-twitter')
+
+
 # =============================================================================
 # Twitter Ego-Network Dataset Loader (SNAP)
 # =============================================================================
@@ -398,6 +412,7 @@ def get_dataset(path, name):
         'Cornell', 'Texas', 'Wisconsin',
         'chameleon', 'squirrel', 'Actor',
         'twitter', 'com-amazon', 'com-dblp', 'com-youtube',
+        'com-livejournal', 'com-twitter',
     ]
 
     # -------------------------------------------------------------------------
@@ -415,7 +430,11 @@ def get_dataset(path, name):
         return _load_com_dblp_dataset(path)
     if name == 'com-youtube':
         return _load_com_youtube_dataset(path)
-    
+    if name == 'com-livejournal':
+        return _load_com_livejournal_dataset(path)
+    if name == 'com-twitter':
+        return _load_com_twitter_dataset(path)
+
     # -------------------------------------------------------------------------
     # Heterophilous Graph Datasets
     # -------------------------------------------------------------------------

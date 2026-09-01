@@ -30,6 +30,7 @@ accuracy: 90.53±0.51
 ```
 [CS-greedy] w=0.5  P=68.47 R=73.50 F1=69.42 Jaccard=56.98 size=1432.4
 ```
+[CS-greedy] w=0.5  P=68.31 R=67.31 F1=66.72 Jaccard=53.29 size=1346.2
 
 ### 性能对比
 | 指标 | Baseline | New | 提升 |
