@@ -42,25 +42,32 @@ def getseedsAndtruecom(args, dataset):
     @param search_size: 检测数量
     @param start: 开始位置
     '''
-    # 动态获取数据集列表
-    available_datasets = get_dataset_list('../../datasets')
-
-    # 创建数据集到索引的映射
-    dic = {ds.lower(): idx for idx, ds in enumerate(available_datasets)}
-
-    # 添加原始数据集
-    original_datasets = ['amazon', 'dblp', 'lj', 'youtube', 'twitter', 'facebook']
-    for i, ds in enumerate(original_datasets):
-        if ds not in dic:
-            dic[ds] = len(dic)
+    # 数据集名称映射（支持别名）
+    name_map = {
+        'imdb_new': 'imdb_new',
+        'imdb': 'imdb_new',
+        'acm': 'acm',
+        'dblp': 'dblp',
+        'amazon': 'amazon',
+        'lj': 'lj',
+        'youtube': 'youtube',
+        'twitter': 'twitter',
+        'facebook': 'facebook'
+    }
 
     dataset_lower = dataset.lower()
+    if dataset_lower in name_map:
+        dataset_lower = name_map[dataset_lower]
 
-    if dataset_lower not in dic:
-        raise ValueError(f"Dataset {dataset} not found. Available: {list(dic.keys())}")
+    # 直接按数据集名称查找索引
+    dataset_order = ['acm', 'dblp', 'imdb_new']
+    if dataset_lower not in dataset_order:
+        raise ValueError(f"Dataset {dataset} not supported. Available: {dataset_order}")
 
-    seeds = getFileInfo(f"seed12")[dic[dataset_lower]]
-    com_indexs = getFileInfo(f"com_index12")[dic[dataset_lower]]
+    idx = dataset_order.index(dataset_lower)
+
+    seeds = getFileInfo(f"seed12")[idx]
+    com_indexs = getFileInfo(f"com_index12")[idx]
     return seeds, com_indexs
 
 def writerResToFile(args, res):
