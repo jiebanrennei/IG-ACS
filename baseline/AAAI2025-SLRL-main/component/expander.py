@@ -35,7 +35,7 @@ class Expander:
             self.device = device
 
 
-    def generateCommunity(self, seeds: List[list[int]], max_size: Optional[int] = None):
+    def generateCommunity(self, seeds: List[List[int]], max_size: Optional[int] = None):
         '''
         生成seeds的社区
         @param seeds:社区
