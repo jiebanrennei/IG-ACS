@@ -1,8 +1,13 @@
 import os
+import sys
 
 import numpy as np
 import torch
 import random
+
+# 添加共享模块路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+from shared.dataset_utils import get_dataset_list, HETE_DATASETS
 
 
 def seed_all(seed):
@@ -37,9 +42,25 @@ def getseedsAndtruecom(args, dataset):
     @param search_size: 检测数量
     @param start: 开始位置
     '''
-    dic = {'amazon': 0, 'dblp': 1, 'lj': 2, 'youtube': 3, 'twitter': 4, 'facebook': 5}
-    seeds = getFileInfo(f"seed12")[dic[dataset]]
-    com_indexs = getFileInfo(f"com_index12")[dic[dataset]]
+    # 动态获取数据集列表
+    available_datasets = get_dataset_list('../../datasets')
+
+    # 创建数据集到索引的映射
+    dic = {ds.lower(): idx for idx, ds in enumerate(available_datasets)}
+
+    # 添加原始数据集
+    original_datasets = ['amazon', 'dblp', 'lj', 'youtube', 'twitter', 'facebook']
+    for i, ds in enumerate(original_datasets):
+        if ds not in dic:
+            dic[ds] = len(dic)
+
+    dataset_lower = dataset.lower()
+
+    if dataset_lower not in dic:
+        raise ValueError(f"Dataset {dataset} not found. Available: {list(dic.keys())}")
+
+    seeds = getFileInfo(f"seed12")[dic[dataset_lower]]
+    com_indexs = getFileInfo(f"com_index12")[dic[dataset_lower]]
     return seeds, com_indexs
 
 def writerResToFile(args, res):

@@ -1,5 +1,6 @@
 import torch
 import os
+import sys
 import numpy as np
 import random
 
@@ -11,6 +12,10 @@ import torch_geometric.transforms as T
 from deeprobust.graph.data import Dataset
 from torch_geometric.data import Data
 from torch_geometric.utils import dense_to_sparse
+
+# 添加共享模块路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+from shared.dataset_utils import HETE_DATASETS
 
 
 # =============================================================================
@@ -33,20 +38,24 @@ def set_everything(seed=123):
 # =============================================================================
 
 def get_dataset(path, name):
-    # Validate dataset name
-    assert name in [
+    # 支持的数据集列表（动态生成）
+    supported_datasets = [
         'Cora', 'CiteSeer', "AmazonC", "AmazonP",
         'CoauthorC', 'CoauthorP', "PubMed",
         'cora_lcc', 'citeseer_lcc',
         'Cornell', 'Texas', 'Wisconsin',
         'chameleon', 'squirrel', 'Actor',
-        'ACM', 'DBLP', 'IMDB'  # 新增异构图数据集
     ]
+    # 添加所有异构图数据集
+    supported_datasets.extend(list(HETE_DATASETS.keys()))
+
+    # Validate dataset name
+    assert name in supported_datasets, f"Unknown dataset: {name}. Supported: {supported_datasets}"
 
     # -------------------------------------------------------------------------
     # Heterogeneous Graph Datasets (converted to homogeneous)
     # -------------------------------------------------------------------------
-    if name in ['ACM', 'DBLP', 'IMDB']:
+    if name in HETE_DATASETS:
         # 加载转换后的 PyG 数据 (保存在 ./dataset/ 目录)
         data_path = f'./dataset/{name.lower()}/{name.lower()}_pyg.pt'
         data = torch.load(data_path)
