@@ -121,10 +121,30 @@ class TrainModel(torch.nn.Module):
         z2 = F.normalize(z2)
         return torch.mm(z1, z2.t())
 
-    def semi_loss(self, z1: torch.Tensor, z2: torch.Tensor):
+    def sim_batch(self, z1: torch.Tensor, z2: torch.Tensor, batch_size=1000):
+        """分批计算相似度矩阵，减少内存消耗"""
+        z1 = F.normalize(z1)
+        z2 = F.normalize(z2)
+        n = z1.shape[0]
+        result = torch.zeros(n, n, device=z1.device)
+        for i in range(0, n, batch_size):
+            for j in range(0, n, batch_size):
+                end_i = min(i + batch_size, n)
+                end_j = min(j + batch_size, n)
+                result[i:end_i, j:end_j] = torch.mm(z1[i:end_i], z2[j:end_j].t())
+        return result
+
+    def semi_loss(self, z1: torch.Tensor, z2: torch.Tensor, batch_mode=True):
         f = lambda x: torch.exp(x / self.tau)
-        refl_sim = f(self.sim(z1, z1))
-        between_sim = f(self.sim(z1, z2))
+
+        if batch_mode and z1.shape[0] > 2000:
+            # 大数据集使用分批计算
+            refl_sim = f(self.sim_batch(z1, z1))
+            between_sim = f(self.sim_batch(z1, z2))
+        else:
+            # 小数据集使用原始方法
+            refl_sim = f(self.sim(z1, z1))
+            between_sim = f(self.sim(z1, z2))
 
         return -torch.log(
             between_sim.diag()
