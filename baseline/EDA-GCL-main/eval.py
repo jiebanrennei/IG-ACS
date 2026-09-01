@@ -146,6 +146,15 @@ def print_statistics(statistics, function_name):
             
 def label_classification(embeddings, data, dataset_name, ratio = 0.1, test_repeat = 10):
     y = data.y
+    num_nodes = embeddings.shape[0]
+
+    # 如果标签数量少于节点数,扩展标签(无标签的填-1)
+    if len(y) < num_nodes:
+        extended_y = torch.full((num_nodes,), -1, dtype=y.dtype, device=y.device)
+        extended_y[:len(y)] = y
+        y = extended_y
+        print(f"扩展标签: {len(y)} -> {num_nodes}")
+
     # 过滤掉标签为-1的节点(异构图转换时填充的)
     valid_mask = y >= 0
     embeddings_valid = embeddings[valid_mask]
