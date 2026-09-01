@@ -49,7 +49,12 @@ if __name__ == '__main__':
     print('##  Starting Time:', now.strftime("%Y-%m-%d %H:%M:%S"), flush=True)
 
     args.train_size = 100   # 训练集社区数量
-    datasets = ['amazon', 'dblp', 'twitter', 'youtube', 'lj']
+    # 只运行指定的数据集，或者使用命令行参数
+    if hasattr(args, 'dataset') and args.dataset:
+        datasets = [args.dataset]
+    else:
+        datasets = ['acm', 'dblp', 'imdb_new']  # 异构图数据集
+
     for dataset in datasets:
         args.dataset = dataset
         run(args)
