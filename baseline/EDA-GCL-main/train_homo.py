@@ -258,11 +258,17 @@ if __name__ == '__main__':
     # ========== Evaluation ==========
     with torch.no_grad():
         emb = train_model(
-            data.x, 
-            data.edge_index, 
+            data.x,
+            data.edge_index,
             torch.ones(data.num_edges).to(device)
         )
-            
+
+    # 保存嵌入用于社区搜索
+    emb_save_path = f'./embeddings/{args.dataset}_emb.pt'
+    os.makedirs('./embeddings', exist_ok=True)
+    torch.save(emb.cpu(), emb_save_path)
+    print(f"嵌入已保存到: {emb_save_path}")
+
     micro_f1_mean, micro_f1_std, macro_f1_mean, macro_f1_std, acc_mean, acc_std = \
         label_classification(emb, data, args.dataset, ratio=0.1)
     
