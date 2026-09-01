@@ -35,12 +35,23 @@ def set_everything(seed=123):
 def get_dataset(path, name):
     # Validate dataset name
     assert name in [
-        'Cora', 'CiteSeer', "AmazonC", "AmazonP", 
-        'CoauthorC', 'CoauthorP', "PubMed", 
+        'Cora', 'CiteSeer', "AmazonC", "AmazonP",
+        'CoauthorC', 'CoauthorP', "PubMed",
         'cora_lcc', 'citeseer_lcc',
-        'Cornell', 'Texas', 'Wisconsin', 
-        'chameleon', 'squirrel', 'Actor'
+        'Cornell', 'Texas', 'Wisconsin',
+        'chameleon', 'squirrel', 'Actor',
+        'ACM', 'DBLP', 'IMDB'  # 新增异构图数据集
     ]
+
+    # -------------------------------------------------------------------------
+    # Heterogeneous Graph Datasets (converted to homogeneous)
+    # -------------------------------------------------------------------------
+    if name in ['ACM', 'DBLP', 'IMDB']:
+        # 加载转换后的 PyG 数据
+        data_path = f'{path}/{name.lower()}/{name.lower()}_pyg.pt'
+        data = torch.load(data_path)
+        print(f"Loaded {name} dataset: {data.num_nodes} nodes, {data.num_edges} edges")
+        return [data]
     
     # -------------------------------------------------------------------------
     # Heterophilous Graph Datasets
