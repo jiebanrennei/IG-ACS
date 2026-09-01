@@ -30,6 +30,42 @@ accuracy: 90.53±0.51
 ```
 [CS-greedy] w=0.5  P=68.47 R=73.50 F1=69.42 Jaccard=56.98 size=1432.4
 ```
+
+### HII 编码器结果
+**执行命令**:
+```bash
+python train_ig.py --dataset ACM --encoder hii --sparsify_topk 50 --num_hidden 128 --num_proj_hidden 64 --num_edge_hidden 16 --num_layers 2 --hii_heads 4 --icra_heads 4 --icra_dim 128 --num_epochs 200
+```
+
+**节点分类结果**:
+- micro_f1: 90.94±0.47
+- macro_f1: 91.03±0.43
+- accuracy: 90.94±0.47
+
+**最优 Greedy**: w=0.2, F1=69.20, Jaccard=56.11
+
+**运行时间**: 训练=256.39s, 测试=499.32s, 总计=756.65s
+
+### HII + Actor-Critic (20轮)
+**执行命令**:
+```bash
+python train_ig.py --dataset ACM --encoder hii --sparsify_topk 50 --num_hidden 128 --num_proj_hidden 64 --num_edge_hidden 16 --num_layers 2 --hii_heads 4 --icra_heads 4 --icra_dim 128 --num_epochs 200 --use_actor_critic --ac_epochs 20
+```
+
+**节点分类结果**:
+- micro_f1: 90.98±0.26
+- macro_f1: 91.03±0.31
+- accuracy: 90.98±0.26
+
+**Greedy 最优**: w=0.2, F1=69.20, Jaccard=56.11
+
+**Actor-Critic 结果**:
+- 标准: P=78.89, R=12.77, F1=21.74, Jaccard=12.56, size=200.0
+- Oracle-size: P=67.05, R=67.05, F1=67.05, Jaccard=53.98, size=1331.7
+
+**运行时间**: 训练=244.55s, 测试=1604.39s, 总计=1849.87s
+
+**备注**: AC 训练显著增加测试时间，oracle-size 版本效果接近 greedy 最优
 [CS-greedy] w=0.5  P=68.31 R=67.31 F1=66.72 Jaccard=53.29 size=1346.2
 
 ### 性能对比
