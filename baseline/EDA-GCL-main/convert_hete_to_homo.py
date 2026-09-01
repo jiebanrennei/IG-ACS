@@ -85,7 +85,19 @@ def convert_hete_to_homo(dataset_name, output_dir, data_root='../../datasets'):
     # 1. 加载标签
     print(f"[1/5] 加载标签...")
     labels = np.load(os.path.join(base, cfg['labels']))
-    print(f"  标签数: {len(labels)}")
+    print(f"  原始标签数: {len(labels)}")
+
+    # 从邻接矩阵获取总节点数
+    adj_temp = sp.load_npz(os.path.join(base, cfg['meta_paths'][0]))
+    num_nodes = adj_temp.shape[0]
+    print(f"  总节点数: {num_nodes}")
+
+    # 扩展标签到所有节点(无标签的填-1)
+    if len(labels) < num_nodes:
+        extended_labels = np.full(num_nodes, -1, dtype=np.int64)
+        extended_labels[:len(labels)] = labels
+        labels = extended_labels
+        print(f"  扩展后标签数: {len(labels)} (其中 {np.sum(labels >= 0)} 个有标签)")
 
     # 2. 加载各类型节点特征
     print(f"[2/5] 加载节点特征...")
@@ -116,9 +128,8 @@ def convert_hete_to_homo(dataset_name, output_dir, data_root='../../datasets'):
     # 3. 计算总节点数和各类型节点数
     print(f"[3/5] 计算节点分布...")
 
-    # 从完整邻接矩阵获取总节点数
-    adj_full = sp.load_npz(os.path.join(base, 'adj.npz'))
-    total_nodes_in_graph = adj_full.shape[0]
+    # 使用步骤1加载的邻接矩阵
+    total_nodes_in_graph = num_nodes
 
     # 计算有特征的节点总数
     total_feat_nodes = sum(feat.shape[0] for _, feat in features_list if feat is not None)

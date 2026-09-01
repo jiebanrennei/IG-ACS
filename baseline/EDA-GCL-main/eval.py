@@ -146,13 +146,18 @@ def print_statistics(statistics, function_name):
             
 def label_classification(embeddings, data, dataset_name, ratio = 0.1, test_repeat = 10):
     y = data.y
+    # 过滤掉标签为-1的节点(异构图转换时填充的)
+    valid_mask = y >= 0
+    embeddings_valid = embeddings[valid_mask]
+    y_valid = y[valid_mask]
+
     micro_f1 = torch.zeros(test_repeat)
     macro_f1 = torch.zeros(test_repeat)
     acc= torch.zeros(test_repeat)
-    for num in range(test_repeat):  
-        split = get_split(embeddings.shape[0], train_ratio = 0.1, test_ratio = 0.8)
+    for num in range(test_repeat):
+        split = get_split(embeddings_valid.shape[0], train_ratio = 0.1, test_ratio = 0.8)
         logreg = LREvaluator(num_epochs=20000)
-        result = logreg.evaluate(embeddings, y, split)
+        result = logreg.evaluate(embeddings_valid, y_valid, split)
         micro_f1[num]= result['micro_f1']
         macro_f1[num]= result['macro_f1']
         acc[num]= result['acc']
