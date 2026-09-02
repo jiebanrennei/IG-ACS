@@ -1373,27 +1373,27 @@ if __name__ == '__main__':
 
         # 优化 5: 社区搜索 Precision 优化
         if args.greedy_balance_alpha == 0.15:
-            args.greedy_balance_alpha = 0.35
-            print(f"  [优化] greedy_balance_alpha: 0.15 → 0.35 (增强 Precision)")
+            args.greedy_balance_alpha = 0.3
+            print(f"  [优化] greedy_balance_alpha: 0.15 → 0.3 (增强 Precision)")
 
         if args.suspicious_boost == 1.5:
             args.suspicious_boost = 2.5
             print(f"  [优化] suspicious_boost: 1.5 → 2.5 (增强可疑节点权重)")
 
-        # 优化 6: 社区大小惩罚（减少假阳性）
+        # 优化 6: 社区大小惩罚（温和版）
         if args.greedy_size_penalty == 0.0:
-            args.greedy_size_penalty = 0.003
-            print(f"  [优化] greedy_size_penalty: 0.0 → 0.003 (惩罚过大社区)")
+            args.greedy_size_penalty = 0.0005
+            print(f"  [优化] greedy_size_penalty: 0.0 → 0.0005 (温和惩罚过大社区)")
 
-        # 优化 7: 早停耐心值（更早停止扩展）
+        # 优化 7: 早停耐心值（宽松版）
         if args.greedy_patience == 0:
-            args.greedy_patience = 10
-            print(f"  [优化] greedy_patience: 0 → 10 (更早停止扩展)")
+            args.greedy_patience = 3
+            print(f"  [优化] greedy_patience: 0 → 3 (适度早停)")
 
-        # 优化 8: 最小增益阈值
+        # 优化 8: 最小增益阈值（宽松版）
         if args.greedy_min_gain_tol == 0.0:
-            args.greedy_min_gain_tol = 0.01
-            print(f"  [优化] greedy_min_gain_tol: 0.0 → 0.01 (要求最小增益)")
+            args.greedy_min_gain_tol = 0.002
+            print(f"  [优化] greedy_min_gain_tol: 0.0 → 0.002 (温和最小增益)")
 
         # 针对特定数据集的微调
         if args.dataset == 'com-amazon':
@@ -1405,10 +1405,10 @@ if __name__ == '__main__':
             if args.num_cand_per_node == 10:
                 args.num_cand_per_node = 15
                 print(f"  [优化] num_cand_per_node: 10 → 15 (Amazon 社区较大)")
-            # Amazon 数据集需要更强的 Precision 优化
-            if args.greedy_size_penalty == 0.003:
-                args.greedy_size_penalty = 0.005
-                print(f"  [优化] greedy_size_penalty: 0.003 → 0.005 (Amazon 需要更强惩罚)")
+            # Amazon 数据集：轻微增强惩罚
+            if args.greedy_size_penalty == 0.0005:
+                args.greedy_size_penalty = 0.001
+                print(f"  [优化] greedy_size_penalty: 0.0005 → 0.001 (Amazon 轻微增强)")
 
         elif args.dataset in ['com-youtube', 'com-twitter', 'com-livejournal']:
             # 大数据集使用更小的隐藏层维度
