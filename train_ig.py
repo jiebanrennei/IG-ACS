@@ -1371,6 +1371,30 @@ if __name__ == '__main__':
             args.bias = 0.001
             print(f"  [优化] bias: 0.0001 → {args.bias}")
 
+        # 优化 5: 社区搜索 Precision 优化
+        if args.greedy_balance_alpha == 0.15:
+            args.greedy_balance_alpha = 0.35
+            print(f"  [优化] greedy_balance_alpha: 0.15 → 0.35 (增强 Precision)")
+
+        if args.suspicious_boost == 1.5:
+            args.suspicious_boost = 2.5
+            print(f"  [优化] suspicious_boost: 1.5 → 2.5 (增强可疑节点权重)")
+
+        # 优化 6: 社区大小惩罚（减少假阳性）
+        if args.greedy_size_penalty == 0.0:
+            args.greedy_size_penalty = 0.003
+            print(f"  [优化] greedy_size_penalty: 0.0 → 0.003 (惩罚过大社区)")
+
+        # 优化 7: 早停耐心值（更早停止扩展）
+        if args.greedy_patience == 0:
+            args.greedy_patience = 10
+            print(f"  [优化] greedy_patience: 0 → 10 (更早停止扩展)")
+
+        # 优化 8: 最小增益阈值
+        if args.greedy_min_gain_tol == 0.0:
+            args.greedy_min_gain_tol = 0.01
+            print(f"  [优化] greedy_min_gain_tol: 0.0 → 0.01 (要求最小增益)")
+
         # 针对特定数据集的微调
         if args.dataset == 'com-amazon':
             if args.num_hidden == 1024:
@@ -1381,6 +1405,10 @@ if __name__ == '__main__':
             if args.num_cand_per_node == 10:
                 args.num_cand_per_node = 15
                 print(f"  [优化] num_cand_per_node: 10 → 15 (Amazon 社区较大)")
+            # Amazon 数据集需要更强的 Precision 优化
+            if args.greedy_size_penalty == 0.003:
+                args.greedy_size_penalty = 0.005
+                print(f"  [优化] greedy_size_penalty: 0.003 → 0.005 (Amazon 需要更强惩罚)")
 
         elif args.dataset in ['com-youtube', 'com-twitter', 'com-livejournal']:
             # 大数据集使用更小的隐藏层维度
