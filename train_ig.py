@@ -1319,6 +1319,83 @@ if __name__ == '__main__':
     program_start = t()  # 总运行时间起点 (含数据加载/建模/训练/评估)
     set_everything(args.seed)
 
+    # ========== 同构图自动优化 ==========
+    homogeneous_datasets = ['com-amazon', 'com-dblp', 'com-youtube', 'com-twitter', 'com-livejournal']
+    is_homogeneous = args.dataset.lower() in homogeneous_datasets
+
+    if is_homogeneous:
+        print(f"\n{'='*60}")
+        print(f"检测到同构图数据集: {args.dataset}")
+        print(f"应用同构图特定优化配置...")
+        print(f"{'='*60}")
+
+        # 保存原始参数用于对比
+        original_tau = args.tau
+        original_num_cand = args.num_cand_per_node
+        original_cand_sources = args.cand_sources
+        original_lambda_cand = args.lambda_cand_bce
+
+        # 优化 1: 降低对比学习温度（增强区分度）
+        if args.tau == 0.4:  # 只在使用默认值时优化
+            args.tau = 0.25
+            print(f"  [优化] tau: {original_tau} → {args.tau} (增强对比学习区分度)")
+
+        # 优化 2: 增加候选边数量和来源
+        if args.num_cand_per_node == 5:  # 只在使用默认值时优化
+            args.num_cand_per_node = 10
+            print(f"  [优化] num_cand_per_node: {original_num_cand} → {args.num_cand_per_node}")
+
+        if args.cand_sources == 'embed':  # 只在使用默认值时优化
+            args.cand_sources = 'embed,twohop,common'
+            print(f"  [优化] cand_sources: {original_cand_sources} → {args.cand_sources}")
+
+        # 优化 3: 调整损失权重
+        if args.lambda_cand_bce == 0.0:  # 只在使用默认值时优化
+            args.lambda_cand_bce = 0.1
+            print(f"  [优化] lambda_cand_bce: {original_lambda_cand} → {args.lambda_cand_bce}")
+
+        if args.lambda_rec == 0.1:  # 只在使用默认值时优化
+            args.lambda_rec = 0.05
+            print(f"  [优化] lambda_rec: 0.1 → {args.lambda_rec}")
+
+        if args.adv_lambda == 1.0:  # 只在使用默认值时优化
+            args.adv_lambda = 1.2
+            print(f"  [优化] adv_lambda: 1.0 → {args.adv_lambda}")
+
+        # 优化 4: 边权重生成优化
+        if args.adv_temp == 1.0:  # 只在使用默认值时优化
+            args.adv_temp = 0.8
+            print(f"  [优化] adv_temp: 1.0 → {args.adv_temp}")
+
+        if args.bias == 0.0001:  # 只在使用默认值时优化
+            args.bias = 0.001
+            print(f"  [优化] bias: 0.0001 → {args.bias}")
+
+        # 针对特定数据集的微调
+        if args.dataset == 'com-amazon':
+            if args.num_hidden == 1024:
+                args.num_hidden = 256
+                args.num_proj_hidden = 128
+                args.num_edge_hidden = 32
+                print(f"  [优化] 隐藏层维度: 1024 → 256 (适配 Amazon 数据集)")
+            if args.num_cand_per_node == 10:
+                args.num_cand_per_node = 15
+                print(f"  [优化] num_cand_per_node: 10 → 15 (Amazon 社区较大)")
+
+        elif args.dataset in ['com-youtube', 'com-twitter', 'com-livejournal']:
+            # 大数据集使用更小的隐藏层维度
+            if args.num_hidden == 1024 or args.num_hidden == 256:
+                args.num_hidden = 128
+                args.num_proj_hidden = 64
+                args.num_edge_hidden = 16
+                print(f"  [优化] 隐藏层维度: → 128 (避免 OOM)")
+
+        print(f"{'='*60}\n")
+
+        # 更新有效参数
+        effective_num_cand_per_node = 0 if args.disable_candidate_edges else args.num_cand_per_node
+        effective_lambda_cand_bce = 0.0 if args.disable_candidate_edges else args.lambda_cand_bce
+
     activation = ({
         'relu': F.relu,
         'prelu': nn.PReLU(),
