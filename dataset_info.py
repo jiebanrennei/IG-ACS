@@ -60,32 +60,38 @@ HOMO_DATASETS = {
     'amazon': {
         'dir': 'amazon',
         'info_file': 'amazon.90.info.txt',
-        'graph_file': 'amazon-1.90.ungraph.txt'
+        'graph_file': 'amazon-1.90.ungraph.txt',
+        'community_file': None
     },
     'com-amazon': {
         'dir': 'com-Amazon',
         'info_file': None,
-        'graph_file': 'com-amazon.ungraph.txt'
+        'graph_file': 'com-amazon.ungraph.txt',
+        'community_file': 'com-amazon.top5000.cmty.txt'
     },
     'com-dblp': {
         'dir': 'com-DBLP',
         'info_file': None,
-        'graph_file': 'com-dblp.ungraph.txt'
+        'graph_file': 'com-dblp.ungraph.txt',
+        'community_file': 'com-dblp.top5000.cmty.txt'
     },
     'com-youtube': {
         'dir': 'com-Youtube',
         'info_file': None,
-        'graph_file': 'com-youtube.ungraph.txt'
+        'graph_file': 'com-youtube.ungraph.txt',
+        'community_file': 'com-youtube.top5000.cmty.txt'
     },
     'com-twitter': {
         'dir': 'com-Twitter',
         'info_file': None,
-        'graph_file': 'com-twitter.ungraph.txt'
+        'graph_file': 'com-twitter.ungraph.txt',
+        'community_file': 'com-twitter.top5000.cmty.txt'
     },
     'com-lj': {
         'dir': 'com-LiveJournal',
         'info_file': None,
-        'graph_file': 'com-lj.ungraph.txt'
+        'graph_file': 'com-lj.ungraph.txt',
+        'community_file': 'com-lj.top5000.cmty.txt'
     }
 }
 
@@ -147,6 +153,35 @@ def count_edges_from_graph_file(filepath):
             if line.strip() and not line.startswith('#'):
                 count += 1
     return count
+
+
+def analyze_community_file(filepath):
+    """分析社区文件，返回社区统计信息"""
+    if not os.path.exists(filepath):
+        return None
+
+    communities = []
+    with open(filepath, 'r') as f:
+        for line in f:
+            if line.strip() and not line.startswith('#'):
+                nodes = [int(x) for x in line.strip().split()]
+                communities.append(nodes)
+
+    if not communities:
+        return None
+
+    sizes = [len(c) for c in communities]
+
+    stats = {
+        'num_communities': len(communities),
+        'min_size': min(sizes),
+        'max_size': max(sizes),
+        'avg_size': np.mean(sizes),
+        'std_size': np.std(sizes),
+        'median_size': np.median(sizes),
+    }
+
+    return stats
 
 
 def analyze_hete_dataset(dataset_name, data_root='./datasets'):
@@ -242,7 +277,8 @@ def analyze_homo_dataset(dataset_name, data_root='./datasets'):
         'type': 'homogeneous',
         'num_nodes': 0,
         'num_edges': 0,
-        'avg_degree': 0.0
+        'avg_degree': 0.0,
+        'community_stats': None
     }
 
     # 尝试从 info 文件读取
@@ -280,6 +316,13 @@ def analyze_homo_dataset(dataset_name, data_root='./datasets'):
     # 计算平均度
     if info['num_nodes'] > 0:
         info['avg_degree'] = 2 * info['num_edges'] / info['num_nodes']
+
+    # 分析社区文件
+    if cfg.get('community_file'):
+        community_path = os.path.join(data_dir, cfg['community_file'])
+        community_stats = analyze_community_file(community_path)
+        if community_stats:
+            info['community_stats'] = community_stats
 
     return info
 
@@ -336,21 +379,32 @@ def print_hete_summary(datasets, data_root='./datasets'):
 
 def print_homo_summary(datasets, data_root='./datasets'):
     """打印同构图统计摘要"""
-    print("\n" + "="*80)
+    print("\n" + "="*100)
     print("同构图数据集统计摘要")
-    print("="*80 + "\n")
+    print("="*100 + "\n")
 
-    print(f"{'数据集':<20} {'节点数量':<15} {'边的数量':<15} {'平均度':<10}")
-    print("-"*80)
+    print(f"{'数据集':<15} {'节点数':<10} {'边数':<10} {'平均度':<8} {'社区数':<8} {'社区大小(min/avg/max)':<25}")
+    print("-"*100)
 
     for dataset_name in datasets:
         try:
             info = analyze_homo_dataset(dataset_name, data_root)
-            print(f"{info['name']:<20} {info['num_nodes']:<15,} {info['num_edges']:<15,} {info['avg_degree']:<10.2f}")
-        except Exception as e:
-            print(f"{dataset_name:<20} [错误] {str(e)}")
 
-    print("-"*80)
+            # 社区信息
+            if info['community_stats']:
+                cs = info['community_stats']
+                num_comm = cs['num_communities']
+                size_str = f"{cs['min_size']}/{cs['avg_size']:.1f}/{cs['max_size']}"
+            else:
+                num_comm = "-"
+                size_str = "-"
+
+            print(f"{info['name']:<15} {info['num_nodes']:<10,} {info['num_edges']:<10,} "
+                  f"{info['avg_degree']:<8.2f} {num_comm:<8} {size_str:<25}")
+        except Exception as e:
+            print(f"{dataset_name:<15} [错误] {str(e)}")
+
+    print("-"*100)
 
 
 def generate_markdown_table(hete_datasets, homo_datasets, data_root='./datasets', output_file=None):
@@ -387,15 +441,26 @@ def generate_markdown_table(hete_datasets, homo_datasets, data_root='./datasets'
 
     # 同构图表格
     lines.append("\n## 同构图数据集\n")
-    lines.append("| 数据集 | 节点数量 | 边的数量 | 平均度 |")
-    lines.append("|--------|----------|----------|--------|")
+    lines.append("| 数据集 | 节点数 | 边数 | 平均度 | 社区数 | 社区大小(min/avg/max) |")
+    lines.append("|--------|--------|------|--------|--------|----------------------|")
 
     for dataset_name in homo_datasets:
         try:
             info = analyze_homo_dataset(dataset_name, data_root)
-            lines.append(f"| {info['name']} | {info['num_nodes']:,} | {info['num_edges']:,} | {info['avg_degree']:.2f} |")
+
+            # 社区信息
+            if info['community_stats']:
+                cs = info['community_stats']
+                num_comm = cs['num_communities']
+                size_str = f"{cs['min_size']}/{cs['avg_size']:.1f}/{cs['max_size']}"
+            else:
+                num_comm = "-"
+                size_str = "-"
+
+            lines.append(f"| {info['name']} | {info['num_nodes']:,} | {info['num_edges']:,} | "
+                        f"{info['avg_degree']:.2f} | {num_comm} | {size_str} |")
         except Exception as e:
-            lines.append(f"| {dataset_name} | [错误] {str(e)} | - | - |")
+            lines.append(f"| {dataset_name} | [错误] {str(e)} | - | - | - | - |")
 
     markdown = "\n".join(lines)
 
