@@ -1371,15 +1371,6 @@ if __name__ == '__main__':
             args.bias = 0.001
             print(f"  [优化] bias: 0.0001 → {args.bias}")
 
-        # 优化 5: 社区搜索优化（适度增强）
-        if args.greedy_balance_alpha == 0.15:
-            args.greedy_balance_alpha = 0.3
-            print(f"  [优化] greedy_balance_alpha: 0.15 → 0.3 (增强 Precision)")
-
-        if args.suspicious_boost == 1.5:
-            args.suspicious_boost = 2.5
-            print(f"  [优化] suspicious_boost: 1.5 → 2.5 (增强可疑节点权重)")
-
         # 针对特定数据集的微调
         if args.dataset == 'com-amazon':
             if args.num_hidden == 1024:
