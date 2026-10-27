@@ -144,7 +144,6 @@ def generate_all_perturbations(dataset_name, seeds=[0, 1234, 111]):
                     data, dataset_name, pert_type, level_name, level_config, seed
                 )
 
-
 def main():
     """主函数"""
     print("="*60)
@@ -179,7 +178,6 @@ def main():
                 filepath = os.path.join(dataset_dir, filename)
                 size_mb = os.path.getsize(filepath) / (1024 * 1024)
                 print(f"  {filename} ({size_mb:.2f} MB)")
-
 
 if __name__ == '__main__':
     main()
