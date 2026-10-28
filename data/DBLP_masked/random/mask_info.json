@@ -1,0 +1,11 @@
+{
+  "dataset": "DBLP",
+  "mask_name": "random",
+  "num_nodes": 4057,
+  "num_edges_original": 5556,
+  "num_edges_masked": 4504,
+  "num_edges_deleted": 1052,
+  "num_edges_added": 0,
+  "S_plus": null,
+  "S_plus_size": 0
+}

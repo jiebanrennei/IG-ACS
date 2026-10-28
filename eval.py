@@ -1183,7 +1183,8 @@ def community_search_greedy(embeddings, data, w_list=(0.0, 0.1, 0.2, 0.3, 0.5),
     # 初始化每个 w 的累加器
     accum = {w: {'P': [], 'R': [], 'F': [], 'J': [], 'sizes': [],
                  'Den': [], 'Con': [], 'Dia': [], 'Cap': [],
-                 'AP': [], 'AR': [], 'AF': [], 'AJ': [], 'AE': []} for w in w_list}
+                 'AP': [], 'AR': [], 'AF': [], 'AJ': [], 'AE': [],
+                 'ARR': [], 'MDR': [], 'ACS': []} for w in w_list}
 
     for q in queries:
         truth = label_sets[y[q]].copy()
@@ -1310,6 +1311,23 @@ def community_search_greedy(embeddings, data, w_list=(0.0, 0.1, 0.2, 0.3, 0.5),
                 a['AJ'].append(adv['jaccard'])
                 a['AE'].append(adv['enrichment'])
 
+            # 遮蔽恢复指标 (ARR, MDR, ACS)
+            if mask_info is not None:
+                s_plus_set = mask_info.get('S_plus_set', set())
+                if len(s_plus_set) > 0:
+                    hidden_in_truth = truth & s_plus_set
+                    if len(hidden_in_truth) > 0:
+                        recovered = pred & hidden_in_truth
+                        arr = len(recovered) / len(hidden_in_truth)
+                    else:
+                        arr = 0.0
+                else:
+                    arr = 0.0
+                a['ARR'].append(arr)
+                a['MDR'].append(0.0)
+                acs = 0.4 * f + 0.4 * arr
+                a['ACS'].append(acs)
+
             if compute_structure:
                 den, con, dia = _structure_metrics(comm, adj, total_vol)
                 a['Den'].append(den); a['Con'].append(con); a['Dia'].append(dia)
@@ -1332,6 +1350,9 @@ def community_search_greedy(embeddings, data, w_list=(0.0, 0.1, 0.2, 0.3, 0.5),
             'adv_f1': float(np.mean(a['AF'])) * 100 if a['AF'] else 0.0,
             'adv_jaccard': float(np.mean(a['AJ'])) * 100 if a['AJ'] else 0.0,
             'adv_enrichment': float(np.mean(a['AE'])) if a['AE'] else 0.0,
+            'arr': float(np.mean(a['ARR'])) * 100 if a['ARR'] else 0.0,
+            'mdr': float(np.mean(a['MDR'])) * 100 if a['MDR'] else 0.0,
+            'acs': float(np.mean(a['ACS'])) * 100 if a['ACS'] else 0.0,
         }
         extra = ''
         if compute_structure:
@@ -1564,7 +1585,8 @@ def community_search_dynamic(encoder_fn, intent_generator, data, edge_weight,
                               topk=(10, 20, 50, 'oracle'), num_queries=200, seed=0,
                               node_boost=None, boost_factor=1.5, queries=None,
                               edge_index=None,
-                              intent_proj_fn=None, intent_rerank_alpha=0.0):
+                              intent_proj_fn=None, intent_rerank_alpha=0.0,
+                              mask_info=None):
     """
     动态意图社区搜索: 每个查询节点根据自己的特征生成意图,
     用该意图重新编码全图, 再按余弦相似度排序。
@@ -1590,7 +1612,8 @@ def community_search_dynamic(encoder_fn, intent_generator, data, edge_weight,
 
     mult = _boost_multiplier(node_boost, boost_factor, N)
 
-    per_k = {k: {'P': [], 'R': [], 'F': [], 'J': [], 'AP': [], 'AR': [], 'AF': [], 'AJ': [], 'AE': []} for k in topk}
+    per_k = {k: {'P': [], 'R': [], 'F': [], 'J': [], 'AP': [], 'AR': [], 'AF': [], 'AJ': [], 'AE': [],
+                 'ARR': [], 'MDR': [], 'ACS': []} for k in topk}
 
     for q in queries:
         truth = label_sets[y[q]].copy()
@@ -1637,6 +1660,31 @@ def community_search_dynamic(encoder_fn, intent_generator, data, edge_weight,
                 per_k[k]['AJ'].append(adv['jaccard'])
                 per_k[k]['AE'].append(adv['enrichment'])
 
+            # 遮蔽恢复指标 (ARR, MDR, ACS)
+            if mask_info is not None:
+                s_plus_set = mask_info.get('S_plus_set', set())
+                edges_deleted = mask_info.get('edges_deleted', [])
+                edges_added = mask_info.get('edges_added', [])
+
+                # ARR: 被隐藏的边缘节点中被找回的比例
+                if len(s_plus_set) > 0:
+                    hidden_in_truth = truth & s_plus_set
+                    if len(hidden_in_truth) > 0:
+                        recovered = pred & hidden_in_truth
+                        arr = len(recovered) / len(hidden_in_truth)
+                    else:
+                        arr = 0.0
+                else:
+                    arr = 0.0
+                per_k[k]['ARR'].append(arr)
+
+                # MDR: 暂时设为 0，需要边级预测才能计算
+                per_k[k]['MDR'].append(0.0)
+
+                # ACS: 综合得分
+                acs = 0.4 * f + 0.4 * arr + 0.2 * 0.0  # intent_align 暂时为 0
+                per_k[k]['ACS'].append(acs)
+
     results = {}
     for k in topk:
         a = per_k[k]
@@ -1651,6 +1699,9 @@ def community_search_dynamic(encoder_fn, intent_generator, data, edge_weight,
             'adv_f1': float(np.mean(a['AF'])) * 100 if a['AF'] else 0.0,
             'adv_jaccard': float(np.mean(a['AJ'])) * 100 if a['AJ'] else 0.0,
             'adv_enrichment': float(np.mean(a['AE'])) if a['AE'] else 0.0,
+            'arr': float(np.mean(a['ARR'])) * 100 if a['ARR'] else 0.0,
+            'mdr': float(np.mean(a['MDR'])) * 100 if a['MDR'] else 0.0,
+            'acs': float(np.mean(a['ACS'])) * 100 if a['ACS'] else 0.0,
         }
         adv_extra = ''
         if a['AP']:
@@ -1658,11 +1709,15 @@ def community_search_dynamic(encoder_fn, intent_generator, data, edge_weight,
                          f" AdvR={results[k]['adv_recall']:.2f}"
                          f" AdvF={results[k]['adv_f1']:.2f}"
                          f" AdvEn={results[k]['adv_enrichment']:.2f}")
+        mask_extra = ''
+        if mask_info is not None:
+            mask_extra = (f" ARR={results[k]['arr']:.2f}"
+                          f" ACS={results[k]['acs']:.2f}")
         print(f'[CS-dyn] k={k_label:<7s} '
               f"P={results[k]['precision']:.2f} "
               f"R={results[k]['recall']:.2f} "
               f"F1={results[k]['f1']:.2f} "
-              f"Jaccard={results[k]['jaccard']:.2f}{adv_extra}")
+              f"Jaccard={results[k]['jaccard']:.2f}{adv_extra}{mask_extra}")
     return results
 
 
@@ -1699,7 +1754,8 @@ def community_search_greedy_dynamic(encoder_fn, intent_generator, data, edge_wei
                                      suspicious_idx=None,
                                      acs_seed_topk=0,
                                      acs_rec_radius=0,
-                                     acs_anomaly_boost=0.0):
+                                     acs_anomaly_boost=0.0,
+                                     mask_info=None):
     """
     动态意图 + 贪心扩展社区搜索。
     每个查询节点生成意图→重新编码→贪心扩展。
@@ -1740,7 +1796,8 @@ def community_search_greedy_dynamic(encoder_fn, intent_generator, data, edge_wei
 
     accum = {w: {'P': [], 'R': [], 'F': [], 'J': [], 'sizes': [],
                  'Den': [], 'Con': [], 'Dia': [], 'Cap': [],
-                 'AP': [], 'AR': [], 'AF': [], 'AJ': [], 'AE': []} for w in w_list}
+                 'AP': [], 'AR': [], 'AF': [], 'AJ': [], 'AE': [],
+                 'ARR': [], 'MDR': [], 'ACS': []} for w in w_list}
 
     for q in queries:
         truth = label_sets[y[q]].copy()
@@ -1881,6 +1938,23 @@ def community_search_greedy_dynamic(encoder_fn, intent_generator, data, edge_wei
                 a['AJ'].append(adv['jaccard'])
                 a['AE'].append(adv['enrichment'])
 
+            # 遮蔽恢复指标 (ARR, MDR, ACS)
+            if mask_info is not None:
+                s_plus_set = mask_info.get('S_plus_set', set())
+                if len(s_plus_set) > 0:
+                    hidden_in_truth = truth & s_plus_set
+                    if len(hidden_in_truth) > 0:
+                        recovered = pred & hidden_in_truth
+                        arr = len(recovered) / len(hidden_in_truth)
+                    else:
+                        arr = 0.0
+                else:
+                    arr = 0.0
+                a['ARR'].append(arr)
+                a['MDR'].append(0.0)
+                acs = 0.4 * f + 0.4 * arr
+                a['ACS'].append(acs)
+
             if compute_structure:
                 den, con, dia = _structure_metrics(comm, adj, total_vol)
                 a['Den'].append(den); a['Con'].append(con); a['Dia'].append(dia)
@@ -1903,6 +1977,9 @@ def community_search_greedy_dynamic(encoder_fn, intent_generator, data, edge_wei
             'adv_f1': float(np.mean(a['AF'])) * 100 if a['AF'] else 0.0,
             'adv_jaccard': float(np.mean(a['AJ'])) * 100 if a['AJ'] else 0.0,
             'adv_enrichment': float(np.mean(a['AE'])) if a['AE'] else 0.0,
+            'arr': float(np.mean(a['ARR'])) * 100 if a['ARR'] else 0.0,
+            'mdr': float(np.mean(a['MDR'])) * 100 if a['MDR'] else 0.0,
+            'acs': float(np.mean(a['ACS'])) * 100 if a['ACS'] else 0.0,
         }
         extra = ''
         if compute_structure:
@@ -1916,11 +1993,15 @@ def community_search_greedy_dynamic(encoder_fn, intent_generator, data, edge_wei
                          f" AdvR={results[w]['adv_recall']:.2f}"
                          f" AdvF={results[w]['adv_f1']:.2f}"
                          f" AdvEn={results[w]['adv_enrichment']:.2f}")
+        mask_extra = ''
+        if mask_info is not None:
+            mask_extra = (f" ARR={results[w]['arr']:.2f}"
+                          f" ACS={results[w]['acs']:.2f}")
         print(f'[CS-greedy-dyn] w={w:<4} '
               f"P={results[w]['precision']:.2f} "
               f"R={results[w]['recall']:.2f} "
               f"F1={results[w]['f1']:.2f} "
               f"Jaccard={results[w]['jaccard']:.2f} "
-              f"size={results[w]['avg_size']:.1f}{cap_str}{extra}{adv_extra}")
+              f"size={results[w]['avg_size']:.1f}{cap_str}{extra}{adv_extra}{mask_extra}")
     return results
 

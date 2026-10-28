@@ -15,8 +15,12 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 # 必须在 import numpy/torch 之前设置; 外部已指定则尊重外部值。
 for _v in ("OMP_NUM_THREADS", "MKL_NUM_THREADS"):
     os.environ.setdefault(_v, "1")
-# 显存碎片化缓解 (PyTorch 官方推荐)
-os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+# 显存碎片化缓解 (PyTorch >= 2.1 才支持 expandable_segments)
+try:
+    if torch.__version__ >= '2.1':
+        os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+except Exception:
+    pass
 
 import argparse
 import math
@@ -1410,11 +1414,18 @@ if __name__ == '__main__':
     })[args.base_model]
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"Using {'GPU: ' + torch.cuda.get_device_name(0) if device.type == 'cuda' else 'CPU'}")
+    if device.type == 'cuda':
+        try:
+            print(f"Using GPU: {torch.cuda.get_device_name(0)}")
+        except Exception:
+            print("Using GPU (name unavailable)")
+    else:
+        print("Using CPU")
 
     # ========== 数据 ==========
     cs_rel_list = args.cs_relations.split(',') if args.cs_relations else None
     if args.perturbed_data is None:
+        mask_info = None
         if args.dataset in CS_DATASETS:
             dataset = get_cs_dataset('./datasets/', args.dataset,
                                      meta_path=args.meta_path,
@@ -1428,6 +1439,8 @@ if __name__ == '__main__':
     if args.perturbed_data is not None:
         import os
         import json
+
+        mask_info = None  # 遮蔽信息，用于计算 ARR/MDR/ACS
 
         print(f"\n{'='*60}")
         print(f"Loading perturbed dataset: {args.perturbed_data}")
@@ -1526,6 +1539,34 @@ if __name__ == '__main__':
                 data.relation_names = relation_names
 
                 print(f"\nLoaded from perturbed directory files")
+
+                # ---- 加载遮蔽信息 (mask_info.json) ----
+                mask_info_file = os.path.join(pert_dir, 'mask_info.json')
+                if os.path.exists(mask_info_file):
+                    with open(mask_info_file, 'r') as mf:
+                        mask_info = json.load(mf)
+                    # 加载被删除/添加的边
+                    edges_del_file = os.path.join(pert_dir, 'edges_deleted.npy')
+                    edges_add_file = os.path.join(pert_dir, 'edges_added.npy')
+                    if os.path.exists(edges_del_file):
+                        mask_info['edges_deleted'] = [tuple(e) for e in np.load(edges_del_file, allow_pickle=True).tolist()]
+                    else:
+                        mask_info['edges_deleted'] = []
+                    if os.path.exists(edges_add_file):
+                        mask_info['edges_added'] = [tuple(e) for e in np.load(edges_add_file, allow_pickle=True).tolist()]
+                    else:
+                        mask_info['edges_added'] = []
+                    # S+ 节点集合
+                    if mask_info.get('S_plus') is not None:
+                        mask_info['S_plus_set'] = set(mask_info['S_plus'])
+                    else:
+                        mask_info['S_plus_set'] = set()
+                    print(f"  [mask_info] type={mask_info.get('mask_name', 'unknown')}, "
+                          f"S+ size={mask_info.get('S_plus_size', 0)}, "
+                          f"deleted={len(mask_info['edges_deleted'])}, "
+                          f"added={len(mask_info['edges_added'])}")
+                else:
+                    mask_info = None
 
             print(f"Number of nodes: {data.num_nodes}")
             print(f"Number of edges: {data.edge_index.size(1)}")
@@ -2307,7 +2348,8 @@ if __name__ == '__main__':
             node_boost=node_boost_eval, boost_factor=args.suspicious_boost,
             queries=fixed_queries, edge_index=ei_arg,
             intent_proj_fn=contrastive_model.intent_proj,
-            intent_rerank_alpha=args.intent_rerank_alpha
+            intent_rerank_alpha=args.intent_rerank_alpha,
+            mask_info=mask_info
         )
         cs_greedy = community_search_greedy_dynamic(
             contrastive_model, intent_generator, data, ew_arg,
@@ -2350,6 +2392,7 @@ if __name__ == '__main__':
             acs_seed_topk=args.acs_seed_topk,
             acs_rec_radius=args.acs_rec_radius,
             acs_anomaly_boost=args.acs_anomaly_boost,
+            mask_info=mask_info,
         )
     else:
         cs_results = community_search(emb, data, topk=cs_topk,
@@ -2426,13 +2469,25 @@ if __name__ == '__main__':
             f.write(f"  CS@{k}: P={metrics['precision']:.2f} "
                     f"R={metrics['recall']:.2f} "
                     f"F1={metrics['f1']:.2f} "
-                    f"Jaccard={metrics['jaccard']:.2f}\n")
+                    f"Jaccard={metrics['jaccard']:.2f}")
+            # 输出遮蔽恢复指标
+            if mask_info is not None:
+                arr = metrics.get('arr', 0)
+                mdr = metrics.get('mdr', 0)
+                acs = metrics.get('acs', 0)
+                f.write(f" ARR={arr:.2f} MDR={mdr:.2f} ACS={acs:.2f}")
+            f.write('\n')
         for w, metrics in cs_greedy.items():
             line = (f"  CS-greedy@w={w}: P={metrics['precision']:.2f} "
                     f"R={metrics['recall']:.2f} "
                     f"F1={metrics['f1']:.2f} "
                     f"Jaccard={metrics['jaccard']:.2f} "
                     f"size={metrics['avg_size']:.1f}")
+            if mask_info is not None:
+                arr = metrics.get('arr', 0)
+                mdr = metrics.get('mdr', 0)
+                acs = metrics.get('acs', 0)
+                line += f" ARR={arr:.2f} MDR={mdr:.2f} ACS={acs:.2f}"
             if metrics.get('density', 0) > 0:
                 line += (f" den={metrics['density']:.3f}"
                          f" cond={metrics['conductance']:.3f}"
